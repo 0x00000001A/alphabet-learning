@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for quiz.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="index.html">All files</a> quiz.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/80</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/80</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var Utils = <span class="cstat-no" title="statement not covered" >require('./utils');</span>
+var Alphabet = <span class="cstat-no" title="statement not covered" >require('./alphabet');</span>
+&nbsp;
+var Quiz = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>unction() {</span>
+  var self;
+  var view;
+  var alphabet;
+  var database;
+  var currentQuestion;
+  var currentQuestionGroup;
+&nbsp;
+  var MIN_SCORE_FOR_PASS = <span class="cstat-no" title="statement not covered" >4;</span>
+  var MAX_SCORE_FOR_HELP = <span class="cstat-no" title="statement not covered" >2;</span>
+  var QUESTIONS_SWITCH_DELAY = <span class="cstat-no" title="statement not covered" >400;</span>
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >initView(</span>) {
+<span class="cstat-no" title="statement not covered" >    view = {};</span>
+<span class="cstat-no" title="statement not covered" >    view.latin = document.getElementById('quiz__latin');</span>
+<span class="cstat-no" title="statement not covered" >    view.letter = document.getElementById('quiz__letter');</span>
+<span class="cstat-no" title="statement not covered" >    view.options = document.getElementById('quiz__options');</span>
+<span class="cstat-no" title="statement not covered" >    view.progress = document.getElementById('quiz__progress');</span>
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >updateView(</span>) {
+<span class="cstat-no" title="statement not covered" >    if (currentQuestion.getScore() &gt;= MAX_SCORE_FOR_HELP) {</span>
+<span class="cstat-no" title="statement not covered" >      view.latin.innerHTML = 'Select one option';</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      view.latin.innerHTML = currentQuestion.getDescription();</span>
+<span class="cstat-no" title="statement not covered" >      alphabet.pronounce(currentQuestion);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    view.letter.innerHTML = currentQuestion.getLetter();</span>
+<span class="cstat-no" title="statement not covered" >    view.options.innerHTML = '';</span>
+<span class="cstat-no" title="statement not covered" >    view.progress.style.width = getCompleteAmount() + '%';</span>
+&nbsp;
+    const options = <span class="cstat-no" title="statement not covered" >currentQuestionGroup.getLetters().slice();</span>
+<span class="cstat-no" title="statement not covered" >    shuffleOptions(options);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.forEach(<span class="fstat-no" title="function not covered" >ch</span>ar =&gt; {</span>
+      var option = <span class="cstat-no" title="statement not covered" >document.createElement('div');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      Utils.addClass(option, 'quiz__option');</span>
+<span class="cstat-no" title="statement not covered" >      option.innerHTML = char.getDescription();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      option.addEventListener(</span>
+        'mouseup',
+<span class="fstat-no" title="function not covered" ></span>        function(e) {
+<span class="cstat-no" title="statement not covered" >          this.makeChoice(option.innerHTML, e.target)</span>;
+        }.bind(self)
+      );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      view.options.appendChild(option);</span>
+    });
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >initDatabase(</span>_alphabet) {
+<span class="cstat-no" title="statement not covered" >    if (!Utils.isInstanceOf(_alphabet, Alphabet)) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Alphabet should be create using Alphabet class');</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!_alphabet.size()) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Alphabet should not be empty');</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    alphabet = _alphabet;</span>
+<span class="cstat-no" title="statement not covered" >    database = [];</span>
+<span class="cstat-no" title="statement not covered" >    database.push(alphabet.getGroup(0));</span>
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >getCompleteAmount(</span>) {
+    var a = <span class="cstat-no" title="statement not covered" >0;</span>
+    var total = <span class="cstat-no" title="statement not covered" >0;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (var u = 0; u &lt; currentQuestionGroup.size(); u++) {</span>
+<span class="cstat-no" title="statement not covered" >      if (currentQuestionGroup.getLetter(u).getScore() &gt;= MIN_SCORE_FOR_PASS) {</span>
+<span class="cstat-no" title="statement not covered" >        a += 1;</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      total +=1;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return a * 100 / total;</span>
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >isGroupComplete(</span>) {
+<span class="cstat-no" title="statement not covered" >    for (var iDb = 0; iDb &lt; database.length; iDb++) {</span>
+      var letters = <span class="cstat-no" title="statement not covered" >database[iDb].getLetters();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      for (var iCh = 0; iCh &lt; letters.length; iCh++) {</span>
+<span class="cstat-no" title="statement not covered" >        if (letters[iCh].getScore() &lt; MIN_SCORE_FOR_PASS) {</span>
+<span class="cstat-no" title="statement not covered" >          return false;</span>
+        }
+      }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return true;</span>
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >rollCurrentQuestion(</span>) {
+<span class="cstat-no" title="statement not covered" >    currentQuestion = currentQuestionGroup.getLetter(</span>
+      Utils.getRandomUpTo(currentQuestionGroup.size())
+    );
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >rollCurrentQuestionGroup(</span>) {
+<span class="cstat-no" title="statement not covered" >    currentQuestionGroup = database[Utils.getRandomUpTo(database.length)];</span>
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >shuffleOptions(</span>options) {
+    var j, x, i;
+<span class="cstat-no" title="statement not covered" >    for (i = options.length - 1; i &gt; 0; i--) {</span>
+<span class="cstat-no" title="statement not covered" >      j = Math.floor(Math.random() * (i + 1));</span>
+<span class="cstat-no" title="statement not covered" >      x = options[i];</span>
+<span class="cstat-no" title="statement not covered" >      options[i] = options[j];</span>
+<span class="cstat-no" title="statement not covered" >      options[j] = x;</span>
+    }
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >next(</span>) {
+<span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >fu</span>nction() {</span>
+<span class="cstat-no" title="statement not covered" >      if (isGroupComplete()) {</span>
+        var groupToAdd = <span class="cstat-no" title="statement not covered" >alphabet.getGroup(database.length);</span>
+<span class="cstat-no" title="statement not covered" >        if (groupToAdd) {</span>
+<span class="cstat-no" title="statement not covered" >          database.push(groupToAdd);</span>
+        }
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      rollCurrentQuestionGroup();</span>
+<span class="cstat-no" title="statement not covered" >      rollCurrentQuestion();</span>
+<span class="cstat-no" title="statement not covered" >      updateView();</span>
+    }, QUESTIONS_SWITCH_DELAY);
+  }
+&nbsp;
+  function <span class="fstat-no" title="function not covered" >Quiz(</span>_alphabet) {
+<span class="cstat-no" title="statement not covered" >    self = this;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    initDatabase(_alphabet);</span>
+<span class="cstat-no" title="statement not covered" >    initView();</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  Quiz.prototype = {</span>
+    constructor: Quiz,
+&nbsp;
+    start: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >      next();</span>
+    },
+&nbsp;
+    // try using ids
+    makeChoice: <span class="fstat-no" title="function not covered" >fu</span>nction(answer, elem) {
+<span class="cstat-no" title="statement not covered" >      if (currentQuestion.getDescription() === answer) {</span>
+<span class="cstat-no" title="statement not covered" >        currentQuestion.addScore();</span>
+<span class="cstat-no" title="statement not covered" >        Utils.addClass(elem, 'success');</span>
+<span class="cstat-no" title="statement not covered" >        next();</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        currentQuestion.reduceScore();</span>
+<span class="cstat-no" title="statement not covered" >        Utils.addClass(elem, 'error');</span>
+<span class="cstat-no" title="statement not covered" >        Utils.addClass(view.letter, 'error');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >fu</span>nction() {</span>
+<span class="cstat-no" title="statement not covered" >          Utils.removeClass(elem, 'error');</span>
+<span class="cstat-no" title="statement not covered" >          Utils.removeClass(view.letter, 'error');</span>
+        }, QUESTIONS_SWITCH_DELAY);
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      alphabet.pronounce(currentQuestion);</span>
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return Quiz;</span>
+})();
+&nbsp;
+<span class="cstat-no" title="statement not covered" >module.exports = Quiz;</span>
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Jan 17 2018 17:58:20 GMT+1000 (+10)
+</div>
+</div>
+<script src="prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="sorter.js"></script>
+</body>
+</html>

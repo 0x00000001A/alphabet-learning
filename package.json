@@ -1,0 +1,48 @@
+{
+  "name": "learn-japanese",
+  "version": "1.0.0",
+  "description": "",
+  "jest": {
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "scripts/**/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 0
+      }
+    }
+  },
+  "scripts": {
+    "test": "jest --notify --coverage",
+    "lint": "eslint . --ext .js",
+    "build": "webpack",
+    "prettier": "prettier --single-quote --no-config --write \"scripts/**/*.js\""
+  },
+  "browserslist": [
+    "> 1%",
+    "last 3 versions"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.17",
+    "css-loader": "^0.28.8",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-webpack-plugin": "^2.30.1",
+    "jest": "^22.1.1",
+    "path": "^0.12.7",
+    "postcss-loader": "^2.0.10",
+    "prettier": "^1.10.2",
+    "style-ext-html-webpack-plugin": "^3.4.6",
+    "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.10.0"
+  }
+}
