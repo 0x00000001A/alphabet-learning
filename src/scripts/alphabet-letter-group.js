@@ -34,7 +34,7 @@ var AlphabetLetterGroup = (function() {
      * Get amount of letters stored in group
      * @returns { Number } Amoun of letters stored in group
      */
-    size: function () {
+    size: function() {
       return this.__lettersCount;
     },
 
@@ -42,7 +42,7 @@ var AlphabetLetterGroup = (function() {
      * Get group id
      * @returns { Number } Group id
      */
-    getId: function () {
+    getId: function() {
       return this.__id;
     },
 
@@ -51,7 +51,7 @@ var AlphabetLetterGroup = (function() {
      * @param { Number } id Letter id
      * @returns { AlphabetLetter }
      */
-    getLetter: function (id) {
+    getLetter: function(id) {
       if (!Utils.isNumber(id)) {
         throw new TypeError('Group ID must be a number');
       }
@@ -74,7 +74,7 @@ var AlphabetLetterGroup = (function() {
      * Creates instances of AlphabetLetter for each letter passed in
      * @private
      */
-    __initLetters: function (letters) {
+    __initLetters: function(letters) {
       var lettersCount = letters.length;
       for (var i = 0; i < lettersCount; i++) {
         this.__addLetter(i, letters[i]);
@@ -87,7 +87,7 @@ var AlphabetLetterGroup = (function() {
      * @param { Number } id Letter id
      * @param { Object } letters Array of letters
      */
-    __verifyInputData: function (id, letters) {
+    __verifyInputData: function(id, letters) {
       if (!Utils.isNumber(id)) {
         throw new TypeError('Group ID must be a number');
       }
@@ -96,7 +96,7 @@ var AlphabetLetterGroup = (function() {
         throw new TypeError('Letters must be an array and cannot be empty');
       }
     }
-  }
+  };
 
   return AlphabetLetterGroup;
 })();

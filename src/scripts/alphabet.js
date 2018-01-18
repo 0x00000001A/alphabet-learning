@@ -47,7 +47,7 @@ var Alphabet = (function() {
      * Returns amount of groups stored in alphabet
      * @returns { Number }
      */
-    size: function () {
+    size: function() {
       return this.__groupsCount;
     },
 
@@ -68,7 +68,7 @@ var Alphabet = (function() {
      * Asks AlphabetPronounce to pronounce a given letter
      * @param { AlphabetLetter } AlphabetLetter Letter to pronounce
      */
-    pronounceLetter: function (alphabetLetter) {
+    pronounceLetter: function(alphabetLetter) {
       this.__alphabetPronounce.pronounce(alphabetLetter);
     },
 
@@ -101,7 +101,7 @@ var Alphabet = (function() {
      * @private
      * @param { * } data Data to check
      */
-    __verifyInputData: function (data) {
+    __verifyInputData: function(data) {
       if (!Utils.isString(data.name) || !data.name.length) {
         throw new Error('Name is required');
       }

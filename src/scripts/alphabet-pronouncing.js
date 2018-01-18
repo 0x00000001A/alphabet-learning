@@ -15,7 +15,7 @@ var AlphabetPronouncing = (function() {
    * @param { String } languageCode Language code
    * @param { String } apiUri Api uri
    */
-  function AlphabetPronouncing (languageCode, apiUri) {
+  function AlphabetPronouncing(languageCode, apiUri) {
     this.__verifyInputData(languageCode);
 
     this.__cache = [];
@@ -31,7 +31,7 @@ var AlphabetPronouncing = (function() {
      * Pronounce given letter
      * @param { AlphabetLetter } letter Letter to be pronounced
      */
-    pronounce: function (letter) {
+    pronounce: function(letter) {
       if (!this.__auidoEnabled) {
         return;
       }
@@ -41,7 +41,7 @@ var AlphabetPronouncing = (function() {
       if (cached) {
         cached.play();
       } else {
-        this.__addToCache(letter, function (audio) {
+        this.__addToCache(letter, function(audio) {
           audio.play();
         });
       }
@@ -54,11 +54,11 @@ var AlphabetPronouncing = (function() {
      * @param { Void } cb Callback function
      */
     __addToCache: function(letter, cb) {
-      var cached = this.__cache[this.__getCacheKey(letter)] = new Audio(
+      var cached = (this.__cache[this.__getCacheKey(letter)] = new Audio(
         this.__buildApiUri()
-      );
+      ));
 
-      cached.oncanplay = function () {
+      cached.oncanplay = function() {
         cb(cached);
       }.bind(this);
     },
@@ -69,7 +69,7 @@ var AlphabetPronouncing = (function() {
      * @param { AlphabetLetter } Letter
      * @returns { AudioNode } Cached Audio
      */
-    __getFromCache: function (letter) {
+    __getFromCache: function(letter) {
       return this.__cache[this.__getCacheKey(letter)];
     },
 
@@ -79,7 +79,7 @@ var AlphabetPronouncing = (function() {
      * @param { AlphabetLetter } Letter
      * @returns { String } Cache key
      */
-    __getCacheKey: function (letter) {
+    __getCacheKey: function(letter) {
       return letter.getId() + letter.getLetter() + letter.getDescription();
     },
 
@@ -89,7 +89,7 @@ var AlphabetPronouncing = (function() {
      * @private
      * @returns { Strign } API Uri with replaced placeholders
      */
-    __buildApiUri: function () {
+    __buildApiUri: function() {
       return this.__apiUri
         .replace('%s', letter.getLetter())
         .replace('%l', this.__languageCode);
@@ -100,7 +100,7 @@ var AlphabetPronouncing = (function() {
      * @private
      * @returns { Boolean }
      */
-    __isBrowserCanPlayAudio: function () {
+    __isBrowserCanPlayAudio: function() {
       try {
         new Audio();
         return true;
@@ -116,7 +116,7 @@ var AlphabetPronouncing = (function() {
      * @param { String } code Language code
      * @param { String } api TTS Api uri
      */
-    __verifyInputData: function (code, api) {
+    __verifyInputData: function(code, api) {
       if (!Utils.isString(code) || !code.length) {
         throw new TypeError(
           'Language code must be a string and cannot be empty'

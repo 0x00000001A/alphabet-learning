@@ -29,7 +29,7 @@ var Quiz = (function() {
    * ```
    * @param { Array } alphabets Array of alphabets will be used in Quiz
    */
-  function Quiz (alphabets) {
+  function Quiz(alphabets) {
     this.__verifyInputData(alphabets);
 
     // Not implemented yet
@@ -81,37 +81,40 @@ var Quiz = (function() {
   Quiz.prototype = {
     constructor: Quiz,
 
-    start: function () {
+    start: function() {
       this.__initQuestions();
       this.__initKeyboard();
       this.__initView();
       this.__next();
     },
 
-    __initQuestions: function () {
+    __initQuestions: function() {
       this.__currentDatabase = new Alphabet(this.__alphabets[0]);
     },
 
-    __initKeyboard: function () {
-      document.addEventListener(this.__EVENTS_KEYDOWN_NAME, function (e) {
-        switch (e.keyCode) {
-          case this.__KEY_CODE_LEFT:
-          case this.__KEY_CODE_DOWN:
-            this.__focusPreviousOption();
-            break;
-          case this.__KEY_CODE_UP:
-          case this.__KEY_CODE_RIGHT:
-            this.__focusNextOption();
-            break;
-          case this.__KEY_CODE_SPACE:
-          case this.__KEY_CODE_ENTER:
-            this.__chooseOption(e);
-            break;
-        }
-      }.bind(this));
+    __initKeyboard: function() {
+      document.addEventListener(
+        this.__EVENTS_KEYDOWN_NAME,
+        function(e) {
+          switch (e.keyCode) {
+            case this.__KEY_CODE_LEFT:
+            case this.__KEY_CODE_DOWN:
+              this.__focusPreviousOption();
+              break;
+            case this.__KEY_CODE_UP:
+            case this.__KEY_CODE_RIGHT:
+              this.__focusNextOption();
+              break;
+            case this.__KEY_CODE_SPACE:
+            case this.__KEY_CODE_ENTER:
+              this.__chooseOption(e);
+              break;
+          }
+        }.bind(this)
+      );
     },
 
-    __focusNextOption: function () {
+    __focusNextOption: function() {
       if (this.__currentOptionElementIndex < this.__currentGroup.size() - 1) {
         this.__currentOptionElementIndex++;
       } else {
@@ -121,7 +124,7 @@ var Quiz = (function() {
       this.__focusOptionWithCurrentIndex();
     },
 
-    __focusPreviousOption: function () {
+    __focusPreviousOption: function() {
       if (this.__currentOptionElementIndex > 0) {
         this.__currentOptionElementIndex--;
       } else {
@@ -139,7 +142,7 @@ var Quiz = (function() {
       this.__view.options.childNodes[this.__currentOptionElementIndex].focus();
     },
 
-    __initView: function () {
+    __initView: function() {
       this.__view.container = document.getElementById(
         this.__ELEMENT_QUIZ_CONTAINER
       );
@@ -152,34 +155,36 @@ var Quiz = (function() {
         this.__ELEMENT_QUESTION_ID
       );
 
-      this.__view.options = document.getElementById(
-        this.__ELEMENT_OPTIONS_ID
-      );
+      this.__view.options = document.getElementById(this.__ELEMENT_OPTIONS_ID);
 
-      this.__view.message = document.getElementById(
-        this.__ELEMENT_MESSAGE_ID
-      );
+      this.__view.message = document.getElementById(this.__ELEMENT_MESSAGE_ID);
 
-      setTimeout(function () {
-        Utils.removeClass(this.__view.container, 'quiz__loading');
-      }.bind(this), this.__ANIMATIONS_DELAY);
+      setTimeout(
+        function() {
+          Utils.removeClass(this.__view.container, 'quiz__loading');
+        }.bind(this),
+        this.__ANIMATIONS_DELAY
+      );
     },
 
-    __next: function () {
-      setTimeout(function () {
-        this.__rollQuestion();
-        // Not implemented yet
-        // this.__rollMode();
-        this.__displayMessage();
-        this.__displaySentence();
-        this.__displayQuestion();
-        this.__displayOptions();
-        this.__focusOptionWithCurrentIndex();
-        this.__pronounceAnswer();
-      }.bind(this), this.__ANIMATIONS_DELAY);
+    __next: function() {
+      setTimeout(
+        function() {
+          this.__rollQuestion();
+          // Not implemented yet
+          // this.__rollMode();
+          this.__displayMessage();
+          this.__displaySentence();
+          this.__displayQuestion();
+          this.__displayOptions();
+          this.__focusOptionWithCurrentIndex();
+          this.__pronounceAnswer();
+        }.bind(this),
+        this.__ANIMATIONS_DELAY
+      );
     },
 
-    __rollQuestion: function () {
+    __rollQuestion: function() {
       this.__currentGroup = this.__currentDatabase.getGroup(
         Utils.getRandomUpTo(this.__difficulty)
       );
@@ -200,18 +205,18 @@ var Quiz = (function() {
     //   }
     // },
 
-    __shuffleOptions: function (options) {
+    __shuffleOptions: function(options) {
       var j, x, i;
 
       for (i = options.length - 1; i > 0; i--) {
-          j = Utils.getRandomUpTo(i + 1);
-          x = options[i];
-          options[i] = options[j];
-          options[j] = x;
+        j = Utils.getRandomUpTo(i + 1);
+        x = options[i];
+        options[i] = options[j];
+        options[j] = x;
       }
     },
 
-    __chooseOption: function (e) {
+    __chooseOption: function(e) {
       var id = Number(
         e.target.getAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME)
       );
@@ -230,7 +235,7 @@ var Quiz = (function() {
       }
     },
 
-    __increaseDifficultyIfNeeded: function () {
+    __increaseDifficultyIfNeeded: function() {
       var group = this.__currentDatabase.getGroup(this.__difficulty - 1);
       var groupSize = group.size();
 
@@ -243,24 +248,25 @@ var Quiz = (function() {
       this.__difficulty++;
     },
 
-    __showWhatAnswerIsCorrect: function () {
+    __showWhatAnswerIsCorrect: function() {
       Utils.addClass(
         this.__currentOptionElement,
         this.__ELEMENT_OPTION_SUCCESS_CLASS
       );
     },
 
-    __showWhatAnswerIsWrong: function () {
-        Utils.addClass(
-          this.__currentOptionElement,
-          this.__ELEMENT_OPTION_FAILURE_CLASS
-        );
-        Utils.addClass(
-          this.__view.question,
-          this.__ELEMENT_QUESTION_FAILURE_CLASS
-        );
+    __showWhatAnswerIsWrong: function() {
+      Utils.addClass(
+        this.__currentOptionElement,
+        this.__ELEMENT_OPTION_FAILURE_CLASS
+      );
+      Utils.addClass(
+        this.__view.question,
+        this.__ELEMENT_QUESTION_FAILURE_CLASS
+      );
 
-        setTimeout(function() {
+      setTimeout(
+        function() {
           Utils.removeClass(
             this.__currentOptionElement,
             this.__ELEMENT_OPTION_FAILURE_CLASS
@@ -269,19 +275,21 @@ var Quiz = (function() {
             this.__view.question,
             this.__ELEMENT_QUESTION_FAILURE_CLASS
           );
-        }.bind(this), this.__ANIMATIONS_DELAY);
+        }.bind(this),
+        this.__ANIMATIONS_DELAY
+      );
     },
 
-    __displayQuestion: function () {
+    __displayQuestion: function() {
       this.__view.question.innerHTML = this.__currentQuestion.getLetter();
     },
 
-    __displayMessage: function () {
+    __displayMessage: function() {
       var message = this.__currentQuestion.getDescription();
 
       if (this.__answerPossiblyRemembered()) {
         if (this.mode === 1) {
-          message = 'Type your answer and press Enter'
+          message = 'Type your answer and press Enter';
         } else {
           message = 'Select one option';
         }
@@ -290,12 +298,12 @@ var Quiz = (function() {
       this.__view.message.innerHTML = message;
     },
 
-    __displaySentence: function () {
+    __displaySentence: function() {
       this.__view.sentence.innerHTML =
         this.__currentQuestion.getSentence() || '';
     },
 
-    __displayInput: function () {
+    __displayInput: function() {
       var groupSize = this.__currentGroup.size();
       this.__view.options.innerHTML = '';
 
@@ -310,7 +318,7 @@ var Quiz = (function() {
       this.__view.options.appendChild(input);
     },
 
-    __displayOptions: function () {
+    __displayOptions: function() {
       var groupSize = this.__currentGroup.size();
       this.__view.options.innerHTML = '';
 
@@ -318,7 +326,7 @@ var Quiz = (function() {
       var letters = [];
 
       for (var i = 0; i < groupSize; i++) {
-        letters.push( this.__currentGroup.getLetter(i));
+        letters.push(this.__currentGroup.getLetter(i));
       }
 
       this.__shuffleOptions(letters);
@@ -343,15 +351,15 @@ var Quiz = (function() {
       this.__view.options.appendChild(options);
     },
 
-    __pronounceAnswer: function () {
+    __pronounceAnswer: function() {
       this.__currentDatabase.pronounceLetter(this.__currentQuestion);
     },
 
-    __answerPossiblyRemembered: function () {
+    __answerPossiblyRemembered: function() {
       return this.__currentQuestion.getScore() > this.__MIN_SCORE_TO_REMEMBER;
     },
 
-    __verifyInputData: function (alphabets) {
+    __verifyInputData: function(alphabets) {
       if (!Utils.isArray(alphabets) || !alphabets.length) {
         throw new TypeError('Alphabets must be an array and cant be empty');
       }

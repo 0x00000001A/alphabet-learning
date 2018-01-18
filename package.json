@@ -22,7 +22,7 @@
     "test": "jest --notify --coverage",
     "lint": "eslint . --ext .js",
     "build": "webpack",
-    "prettier": "prettier --single-quote --no-config --write \"scripts/**/*.js\""
+    "prettier": "prettier --single-quote --no-config --write \"src/**/*.js\""
   },
   "browserslist": [
     "> 1%",

@@ -36,7 +36,7 @@ var AlphabetLetter = (function() {
      * Get letter id
      * @returns { Number }
      */
-    getId: function () {
+    getId: function() {
       return this.__id;
     },
 
@@ -44,21 +44,21 @@ var AlphabetLetter = (function() {
      * Get letter score
      * @returns { Number }
      */
-    getScore: function () {
+    getScore: function() {
       return this.__score;
     },
 
     /**
      * Increases score for letter by 1
      */
-    addScore: function () {
+    addScore: function() {
       this.__score++;
     },
 
     /**
      * Reduces score for letter by 1
      */
-    reduceScore: function () {
+    reduceScore: function() {
       this.__score--;
     },
 
@@ -66,7 +66,7 @@ var AlphabetLetter = (function() {
      * Get letter
      * @returns { String } Letter
      */
-    getLetter: function () {
+    getLetter: function() {
       return this.__letter;
     },
 
@@ -76,7 +76,7 @@ var AlphabetLetter = (function() {
      * @example Letter "ん" is never used in the beginning
      * @returns { String | undefined } Sentence
      */
-    getSentence: function () {
+    getSentence: function() {
       return this.__sentence;
     },
 
@@ -86,7 +86,7 @@ var AlphabetLetter = (function() {
      * @example Description for letter "や" is "ya"
      * @returns { String } Description
      */
-    getDescription: function () {
+    getDescription: function() {
       return this.__description;
     },
 
@@ -96,7 +96,7 @@ var AlphabetLetter = (function() {
      * @param { Number } id Letter id
      * @param { Object } data Data to check
      */
-    __verifyInputData: function (id, data) {
+    __verifyInputData: function(id, data) {
       if (!Utils.isNumber(id)) {
         throw new TypeError('Letter ID is incorrect');
       }

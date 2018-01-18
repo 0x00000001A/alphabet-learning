@@ -8,7 +8,7 @@ var StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 module.exports = {
   entry: path.join(__dirname, 'src/index.js'),
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'docs'),
     filename: '[name].js'
   },
   module: {
@@ -42,7 +42,7 @@ module.exports = {
       }
     }),
     new ExtractTextPlugin('styles.css'),
-    new CleanWebpackPlugin([ 'dist/*' ], { root: __dirname }),
+    new CleanWebpackPlugin([ 'docs/*' ], { root: __dirname }),
     new StyleExtHtmlWebpackPlugin({
       filename: 'styles.css',
       minify: true

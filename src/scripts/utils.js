@@ -20,9 +20,11 @@ var Utils = (function() {
       throw new Error('Class name should be non-empty string');
     }
 
-    return elem.className.indexOf(' ' + str) > -1 ||
+    return (
+      elem.className.indexOf(' ' + str) > -1 ||
       elem.className.indexOf(str + ' ') > -1 ||
-      elem.className === str;
+      elem.className === str
+    );
   };
 
   Utils.removeClass = function(elem, str) {
@@ -31,7 +33,8 @@ var Utils = (function() {
     }
 
     if (this.hasClass(elem, str)) {
-      elem.className = elem.className.replace(' ' + str, '')
+      elem.className = elem.className
+        .replace(' ' + str, '')
         .replace(str + ' ', '')
         .replace(str, '');
     }
