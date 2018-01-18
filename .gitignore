@@ -12,6 +12,9 @@ npm-debug.log*
 node_modules/
 .npm
 
+# Testing tools
+coverage/
+
 # Yarn package manager
 yarn-debug.log*
 yarn-error.log*
