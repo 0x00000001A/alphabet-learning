@@ -1,10 +1,20 @@
 var Utils = require('./utils');
 var Alphabet = require('./alphabet');
 
-// @TODO add modes support
-// @TODO refactor required
-// @TODO jsdoc on complete
-// @TODO pronouncing is not working for some reason
+// TODO List
+// @TODO: add modes support
+// @TODO: refactor required
+// @TODO: jsdoc
+// @TODO: pronouncing is not working for some reason
+// @TODO: fix double clicking on option issue
+// @TODO: divide description to latin and transcription
+// @TODO: add font param to alphabet for downloading language specified fonts
+// @TODO: add interface for alphabet selecton
+// @TODO: save progress somewhere and allow to reset this progress
+// @TODO: show progress in progress-bar
+// @TODO: take back unit-tests
+// @TODO: complete Hiragana, Katakana alphabets
+// @TODO: native app
 var Quiz = (function() {
   /**
    * Quiz class

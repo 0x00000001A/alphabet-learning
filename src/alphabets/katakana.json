@@ -1,0 +1,108 @@
+{
+  "name": "Japan",
+  "code": "ja",
+  "api": "https://translate.google.ru/translate_tts?ie=UTF-8&q=%s&tl=%l&total=1&idx=0&textlen=1&client=tw-ob&ttsspeed=0.24",
+  "groups": [
+    [
+      { "letter": "ア", "description": "a" },
+      { "letter": "イ", "description": "i" },
+      { "letter": "ウ", "description": "u" },
+      { "letter": "エ", "description": "e" },
+      { "letter": "オ", "description": "o" }
+    ],
+    [
+      { "letter": "カ", "description": "ka" },
+      { "letter": "キ", "description": "ki" },
+      { "letter": "ク", "description": "ku" },
+      { "letter": "ケ", "description": "ke" },
+      { "letter": "コ", "description": "ko" }
+    ],
+    [
+      { "letter": "サ", "description": "sa" },
+      { "letter": "シ", "description": "shi" },
+      { "letter": "ス", "description": "su" },
+      { "letter": "セ", "description": "se" },
+      { "letter": "ソ", "description": "so" }
+    ],
+    [
+      { "letter": "タ", "description": "ta" },
+      { "letter": "チ", "description": "chi" },
+      { "letter": "ツ", "description": "tsu" },
+      { "letter": "テ", "description": "te" },
+      { "letter": "ト", "description": "to" }
+    ],
+    [
+      { "letter": "ナ", "description": "na" },
+      { "letter": "ニ", "description": "ni" },
+      { "letter": "ヌ", "description": "nu" },
+      { "letter": "ネ", "description": "ne" },
+      { "letter": "ノ", "description": "no" }
+    ],
+    [
+      { "letter": "ハ", "description": "ha" },
+      { "letter": "ヒ", "description": "hi" },
+      { "letter": "フ", "description": "fu" },
+      { "letter": "ヘ", "description": "he" },
+      { "letter": "ホ", "description": "ho" }
+    ],
+    [
+      { "letter": "マ", "description": "ma" },
+      { "letter": "ミ", "description": "mi" },
+      { "letter": "ム", "description": "mu" },
+      { "letter": "メ", "description": "me" },
+      { "letter": "モ", "description": "mo" }
+    ],
+    [
+      { "letter": "ヤ", "description": "ya" },
+      { "letter": "ユ", "description": "yu" },
+      { "letter": "ヨ", "description": "yo" }
+    ],
+    [
+      { "letter": "ラ", "description": "ra" },
+      { "letter": "リ", "description": "ri" },
+      { "letter": "ル", "description": "ru" },
+      { "letter": "レ", "description": "re" },
+      { "letter": "ロ", "description": "ro" }
+    ],
+    [
+      { "letter": "ワ", "description": "wa" },
+      { "letter": "ヲ", "description": "wo" },
+      { "letter": "ン", "description": "n" }
+    ],
+    [
+      { "letter": "ガ", "description": "ga" },
+      { "letter": "ギ", "description": "gi" },
+      { "letter": "グ", "description": "gu" },
+      { "letter": "ゲ", "description": "ge" },
+      { "letter": "ゴ", "description": "go" }
+    ],
+    [
+      { "letter": "ザ", "description": "za" },
+      { "letter": "ジ", "description": "ji" },
+      { "letter": "ズ", "description": "zu" },
+      { "letter": "ゼ", "description": "ze" },
+      { "letter": "ゾ", "description": "zo" }
+    ],
+    [
+      { "letter": "ダ", "description": "da" },
+      { "letter": "ヂ", "description": "ji" },
+      { "letter": "ヅ", "description": "zu" },
+      { "letter": "デ", "description": "de" },
+      { "letter": "ド", "description": "do" }
+    ],
+    [
+      { "letter": "バ", "description": "ba" },
+      { "letter": "ビ", "description": "bi" },
+      { "letter": "ブ", "description": "bu" },
+      { "letter": "ベ", "description": "be" },
+      { "letter": "ボ", "description": "bo" }
+    ],
+    [
+      { "letter": "パ", "description": "pa" },
+      { "letter": "ピ", "description": "pi" },
+      { "letter": "プ", "description": "pu" },
+      { "letter": "ぺ", "description": "pe" },
+      { "letter": "ポ", "description": "po" }
+    ]
+  ]
+}
