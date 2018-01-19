@@ -5,9 +5,6 @@ var Katakana = require('./alphabets/katakana.json');
 
 var Quiz = require('./scripts/quiz');
 
-var quiz = new Quiz([
-  Katakana,
-  Hiragana
-]);
+var quiz = new Quiz([Katakana, Hiragana]);
 
 quiz.start();

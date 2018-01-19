@@ -1,7 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
@@ -30,7 +29,6 @@ module.exports = {
     }]
   },
   plugins: [
-    new ProgressBarPlugin(),
     new ExtractTextPlugin('styles.css'),
     new StyleExtHtmlWebpackPlugin({
       filename: 'styles.css',

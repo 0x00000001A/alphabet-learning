@@ -55,7 +55,8 @@ var Quiz = (function() {
     this.__currentOptionElementIndex = -1;
 
     this.__ANIMATIONS_DELAY = 400;
-    this.__MIN_SCORE_TO_REMEMBER = 1;
+    this.__MIN_SCORE_TO_REMEMBER = 4;
+    this.__MIN_SCORE_TO_ACCEPT_PROGRESS = 6;
 
     // Element classes
     this.__ELEMENT_QUESTION_SUCCESS_CLASS = 'quiz__question_shake';
@@ -66,6 +67,7 @@ var Quiz = (function() {
 
     // Element id's
     this.__ELEMENT_QUIZ_CONTAINER = 'quiz';
+    this.__ELEMENT_PROGRESS_ID = 'quiz__progress';
     this.__ELEMENT_QUESTION_ID = 'quiz__question';
     this.__ELEMENT_SENTENCE_ID = 'quiz__sentence';
     this.__ELEMENT_OPTIONS_ID = 'quiz__options';
@@ -124,6 +126,10 @@ var Quiz = (function() {
     },
 
     __initView: function() {
+      this.__view.progress = document.getElementById(
+        this.__ELEMENT_PROGRESS_ID
+      );
+
       this.__view.container = document.getElementById(
         this.__ELEMENT_QUIZ_CONTAINER
       );
@@ -154,6 +160,7 @@ var Quiz = (function() {
           this.__changeQuestion();
           this.__changeMode();
 
+          this.__displayProgress();
           this.__displayMessage();
           this.__displaySentence();
           this.__displayQuestion();
@@ -166,7 +173,7 @@ var Quiz = (function() {
       );
     },
 
-    __changeMode: function () {
+    __changeMode: function() {
       if (this.__currentQuestion && this.__answerPossiblyRemembered()) {
         this.__currentMode = Utils.getRandomUpTo(this.__modes + 1);
       } else {
@@ -174,7 +181,7 @@ var Quiz = (function() {
       }
     },
 
-    __changeGroup: function () {
+    __changeGroup: function() {
       this.__currentGroup = this.__currentDatabase.getGroup(
         Utils.getRandomUpTo(this.__difficulty)
       );
@@ -186,6 +193,10 @@ var Quiz = (function() {
       );
     },
 
+    __displayProgress: function() {
+      this.__view.progress.style.width = this.__getProgress() + '%';
+    },
+
     __displayMessage: function() {
       var message;
 
@@ -193,7 +204,7 @@ var Quiz = (function() {
         switch (this.__currentMode) {
           case 0:
             message = this.__currentQuestion.getDescription();
-            break
+            break;
           case 1:
             message = this.__currentQuestion.getLetter();
             break;
@@ -208,14 +219,14 @@ var Quiz = (function() {
             message = 'Type your answer and press Enter';
             break;
           default:
-            // unknown mode;
+          // unknown mode;
         }
       }
 
       this.__view.message.innerHTML = message;
     },
 
-    __displayQuestion: function () {
+    __displayQuestion: function() {
       var question;
 
       switch (this.__currentMode) {
@@ -227,7 +238,7 @@ var Quiz = (function() {
           question = this.__currentQuestion.getDescription();
           break;
         default:
-          // unknown mode;
+        // unknown mode;
       }
 
       this.__view.question.innerHTML = question;
@@ -238,7 +249,7 @@ var Quiz = (function() {
         this.__currentQuestion.getSentence() || '';
     },
 
-    __displayOptions: function () {
+    __displayOptions: function() {
       var options;
 
       switch (this.__currentMode) {
@@ -256,6 +267,29 @@ var Quiz = (function() {
 
       this.__view.options.innerHTML = '';
       this.__view.options.appendChild(options);
+    },
+
+    __getProgress: function() {
+      var total = 0;
+      var progress = 0;
+      var databaseSize = this.__currentDatabase.size();
+
+      for (var id = 0; id < databaseSize; id++) {
+        var group = this.__currentDatabase.getGroup(id);
+        var groupSize = group.size();
+
+        for (var ig = 0; ig < groupSize; ig++) {
+          if (
+            group.getLetter(ig).getScore() > this.__MIN_SCORE_TO_ACCEPT_PROGRESS
+          ) {
+            progress++;
+          }
+
+          total++;
+        }
+      }
+
+      return progress / total * 100;
     },
 
     __generateOptions: function() {
@@ -332,11 +366,22 @@ var Quiz = (function() {
     },
 
     __focusOptionWithCurrentIndex: function() {
-      var el = this.__view.options.childNodes[this.__currentOptionElementIndex];
-      if (!el) {
-        this.__currentOptionElementIndex = 0;
-      }
-      this.__view.options.childNodes[this.__currentOptionElementIndex].focus();
+      setTimeout(
+        function() {
+          var el = this.__view.options.childNodes[
+            this.__currentOptionElementIndex
+          ];
+
+          if (!el) {
+            this.__currentOptionElementIndex = 0;
+          }
+
+          this.__view.options.childNodes[
+            this.__currentOptionElementIndex
+          ].focus();
+        }.bind(this),
+        100
+      );
     },
 
     __shuffleOptions: function(options) {
@@ -413,16 +458,20 @@ var Quiz = (function() {
       );
     },
 
-    __answerIsCorrect: function (el) {
+    __answerIsCorrect: function(el) {
       switch (this.__currentMode) {
         case 0:
         case 1:
-          return this.__currentQuestion.getId() ===
-            Number(el.getAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME));
+          return (
+            this.__currentQuestion.getId() ===
+            Number(el.getAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME))
+          );
           break;
         case 2:
-          return this.__currentQuestion.getDescription().toLowerCase() ===
-            el.value.toLowerCase();
+          return (
+            this.__currentQuestion.getDescription().toLowerCase() ===
+            el.value.toLowerCase()
+          );
         default:
           // unknown mode;
           break;
