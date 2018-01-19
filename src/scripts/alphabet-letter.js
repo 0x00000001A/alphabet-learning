@@ -25,8 +25,9 @@ var AlphabetLetter = (function() {
     this.__id = id;
     this.__score = 0;
     this.__letter = data.letter;
-    this.__sentence = data.sentence;
+    this.__sentence = data.sentence || '';
     this.__description = data.description;
+    this.__transcription = data.__transcription || '';
   }
 
   AlphabetLetter.prototype = {
@@ -113,6 +114,10 @@ var AlphabetLetter = (function() {
 
       if (Utils.isString(data.sentence) && !data.sentence.length) {
         throw new Error('Sentence cannot be empty if passed in');
+      }
+
+      if (Utils.isString(data.transcrition) && !data.transcrition.length) {
+        throw new Error('Transcription cannot be empty if passed in');
       }
     }
   };

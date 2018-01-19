@@ -58,7 +58,7 @@ var AlphabetPronouncing = (function() {
         this.__buildApiUri(letter)
       ));
 
-      cached.oncanplay = function() {
+      cached.oncanplaythrough = function() {
         cb(cached);
       }.bind(this);
     },

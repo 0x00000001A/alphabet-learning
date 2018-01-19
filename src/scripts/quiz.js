@@ -4,13 +4,10 @@ var Alphabet = require('./alphabet');
 // TODO List
 // @TODO: refactor required
 // @TODO: jsdoc
-// @TODO: pronouncing is not working for some reason
-// @TODO: fix double clicking on option issue
 // @TODO: divide description to latin and transcription
 // @TODO: add font param to alphabet for downloading language specified fonts
 // @TODO: add interface for alphabet selecton
 // @TODO: save progress somewhere and allow to reset this progress
-// @TODO: show progress in progress-bar
 // @TODO: take back unit-tests
 // @TODO: complete Hiragana, Katakana alphabets
 // @TODO: native app
@@ -53,6 +50,7 @@ var Quiz = (function() {
     this.__currentDatabase = null;
     this.__currentOptionElement = null;
     this.__currentOptionElementIndex = -1;
+    this.__inputIsBlocked = false;
 
     this.__ANIMATIONS_DELAY = 400;
     this.__MIN_SCORE_TO_REMEMBER = 4;
@@ -156,6 +154,8 @@ var Quiz = (function() {
     __next: function() {
       setTimeout(
         function() {
+          this.__inputIsBlocked = false;
+
           this.__changeGroup();
           this.__changeQuestion();
           this.__changeMode();
@@ -246,7 +246,7 @@ var Quiz = (function() {
 
     __displaySentence: function() {
       this.__view.sentence.innerHTML =
-        this.__currentQuestion.getSentence() || '';
+        this.__currentQuestion.getSentence();
     },
 
     __displayOptions: function() {
@@ -396,10 +396,16 @@ var Quiz = (function() {
     },
 
     __answer: function(e) {
+      if (this.__inputIsBlocked) {
+        return;
+      }
+
       var correct = this.__answerIsCorrect(e.target);
+
       this.__currentOptionElement = e.target;
 
       if (correct) {
+        this.__inputIsBlocked = true;
         this.__currentQuestion.addScore();
         this.__increaseDifficultyIfNeeded();
         this.__showWhatAnswerIsCorrect();
