@@ -32,7 +32,7 @@ var AlphabetPronouncing = (function() {
      * @param { AlphabetLetter } letter Letter to be pronounced
      */
     pronounce: function(letter) {
-      if (!this.__auidoEnabled) {
+      if (!this.__auidoEnabled || !Utils.isInstanceOf(letter, AlphabetLetter)) {
         return;
       }
 
@@ -55,7 +55,7 @@ var AlphabetPronouncing = (function() {
      */
     __addToCache: function(letter, cb) {
       var cached = (this.__cache[this.__getCacheKey(letter)] = new Audio(
-        this.__buildApiUri()
+        this.__buildApiUri(letter)
       ));
 
       cached.oncanplay = function() {
@@ -87,9 +87,10 @@ var AlphabetPronouncing = (function() {
      * Build URI for request
      * Replaces "%s" with letter and "%l" with language code
      * @private
+     * @param { Letter } letter An AlphabetLetter
      * @returns { Strign } API Uri with replaced placeholders
      */
-    __buildApiUri: function() {
+    __buildApiUri: function(letter) {
       return this.__apiUri
         .replace('%s', letter.getLetter())
         .replace('%l', this.__languageCode);

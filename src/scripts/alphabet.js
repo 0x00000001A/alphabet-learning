@@ -35,7 +35,10 @@ var Alphabet = (function() {
     this.__groupsCount = 0;
     this.__languageName = '';
     this.__languageCode = '';
-    this.__alphabetPronounce = new AlphabetPronounce(alphabet.code);
+    this.__alphabetPronounce = new AlphabetPronounce(
+      alphabet.code,
+      alphabet.api
+    );
 
     this.__initGroups(alphabet.groups);
   }

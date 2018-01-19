@@ -484,7 +484,9 @@ var Quiz = (function() {
      * Ask AlphabetPronouncing to try to pronounce current letter
      */
     __pronounceAnswer: function() {
-      this.__currentDatabase.pronounceLetter(this.__currentQuestion);
+      if (this.__currentMode !== 2) {
+        this.__currentDatabase.pronounceLetter(this.__currentQuestion);
+      }
     },
 
     /**

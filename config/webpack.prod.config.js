@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 
 module.exports = {
   plugins: [
@@ -15,6 +16,10 @@ module.exports = {
         removeComments: true,
         removeEmptyAttributes: true,
       }
+    }),
+    new StyleExtHtmlWebpackPlugin({
+      filename: '../styles.css',
+      minify: true
     })
   ]
 };

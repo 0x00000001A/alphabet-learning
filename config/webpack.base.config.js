@@ -3,7 +3,6 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
-var StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 
 module.exports = {
   entry: path.join(__dirname, '../src/index.js'),
@@ -30,10 +29,6 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('styles.css'),
-    new StyleExtHtmlWebpackPlugin({
-      filename: 'styles.css',
-      minify: true
-    }),
     new CleanWebpackPlugin([ 'docs/*' ], { root: path.join(__dirname, '..') })
   ],
   devtool: 'source-map'
