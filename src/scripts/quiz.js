@@ -2,7 +2,6 @@ var Utils = require('./utils');
 var Alphabet = require('./alphabet');
 
 // TODO List
-// @TODO: add modes support
 // @TODO: refactor required
 // @TODO: jsdoc
 // @TODO: pronouncing is not working for some reason
@@ -15,6 +14,8 @@ var Alphabet = require('./alphabet');
 // @TODO: take back unit-tests
 // @TODO: complete Hiragana, Katakana alphabets
 // @TODO: native app
+// @TODO: handle events only on added options and inputs
+
 var Quiz = (function() {
   /**
    * Quiz class
@@ -42,13 +43,11 @@ var Quiz = (function() {
   function Quiz(alphabets) {
     this.__verifyInputData(alphabets);
 
-    // Not implemented yet
-    // this.__mode = 0;      // 0 - Select option, 1 - type the answer in input
-    // this.__modePrev = 0;  // Previous mode
-
     this.__view = {};
+    this.__modes = 2;
     this.__alphabets = alphabets;
     this.__difficulty = 1;
+    this.__currentMode = 0;
     this.__currentGroup = [];
     this.__currentQuestion = null;
     this.__currentDatabase = null;
@@ -117,11 +116,199 @@ var Quiz = (function() {
               break;
             case this.__KEY_CODE_SPACE:
             case this.__KEY_CODE_ENTER:
-              this.__chooseOption(e);
+              this.__answer(e);
               break;
           }
         }.bind(this)
       );
+    },
+
+    __initView: function() {
+      this.__view.container = document.getElementById(
+        this.__ELEMENT_QUIZ_CONTAINER
+      );
+
+      this.__view.sentence = document.getElementById(
+        this.__ELEMENT_SENTENCE_ID
+      );
+
+      this.__view.question = document.getElementById(
+        this.__ELEMENT_QUESTION_ID
+      );
+
+      this.__view.options = document.getElementById(this.__ELEMENT_OPTIONS_ID);
+      this.__view.message = document.getElementById(this.__ELEMENT_MESSAGE_ID);
+
+      setTimeout(
+        function() {
+          Utils.removeClass(this.__view.container, 'quiz__loading');
+        }.bind(this),
+        this.__ANIMATIONS_DELAY
+      );
+    },
+
+    __next: function() {
+      setTimeout(
+        function() {
+          this.__changeGroup();
+          this.__changeQuestion();
+          this.__changeMode();
+
+          this.__displayMessage();
+          this.__displaySentence();
+          this.__displayQuestion();
+          this.__displayOptions();
+
+          this.__focusOptionWithCurrentIndex();
+          this.__pronounceAnswer();
+        }.bind(this),
+        this.__ANIMATIONS_DELAY
+      );
+    },
+
+    __changeMode: function () {
+      if (this.__currentQuestion && this.__answerPossiblyRemembered()) {
+        this.__currentMode = Utils.getRandomUpTo(this.__modes + 1);
+      } else {
+        this.__currentMode = 0;
+      }
+    },
+
+    __changeGroup: function () {
+      this.__currentGroup = this.__currentDatabase.getGroup(
+        Utils.getRandomUpTo(this.__difficulty)
+      );
+    },
+
+    __changeQuestion: function() {
+      this.__currentQuestion = this.__currentGroup.getLetter(
+        Utils.getRandomUpTo(this.__currentGroup.size())
+      );
+    },
+
+    __displayMessage: function() {
+      var message;
+
+      if (!this.__answerPossiblyRemembered()) {
+        switch (this.__currentMode) {
+          case 0:
+            message = this.__currentQuestion.getDescription();
+            break
+          case 1:
+            message = this.__currentQuestion.getLetter();
+            break;
+        }
+      } else {
+        switch (this.__currentMode) {
+          case 0:
+          case 1:
+            message = 'Select one option';
+            break;
+          case 2:
+            message = 'Type your answer and press Enter';
+            break;
+          default:
+            // unknown mode;
+        }
+      }
+
+      this.__view.message.innerHTML = message;
+    },
+
+    __displayQuestion: function () {
+      var question;
+
+      switch (this.__currentMode) {
+        case 0:
+        case 2:
+          question = this.__currentQuestion.getLetter();
+          break;
+        case 1:
+          question = this.__currentQuestion.getDescription();
+          break;
+        default:
+          // unknown mode;
+      }
+
+      this.__view.question.innerHTML = question;
+    },
+
+    __displaySentence: function() {
+      this.__view.sentence.innerHTML =
+        this.__currentQuestion.getSentence() || '';
+    },
+
+    __displayOptions: function () {
+      var options;
+
+      switch (this.__currentMode) {
+        case 0:
+        case 1:
+          options = this.__generateOptions();
+          break;
+        case 2:
+          options = this.__generateInput();
+          break;
+        default:
+          // unknown mode
+          break;
+      }
+
+      this.__view.options.innerHTML = '';
+      this.__view.options.appendChild(options);
+    },
+
+    __generateOptions: function() {
+      var groupSize = this.__currentGroup.size();
+      this.__view.options.innerHTML = '';
+
+      var options = document.createDocumentFragment();
+      var letters = [];
+
+      for (var i = 0; i < groupSize; i++) {
+        letters.push(this.__currentGroup.getLetter(i));
+      }
+
+      this.__shuffleOptions(letters);
+
+      for (var i = 0; i < groupSize; i++) {
+        var option = document.createElement('a');
+        var letter = letters[i];
+
+        if (this.__currentMode === 0) {
+          option.innerHTML = letter.getDescription();
+        } else {
+          option.innerHTML = letter.getLetter();
+        }
+
+        option.classList = this.__ELEMENT_OPTION_CLASS;
+        option.href = '#';
+
+        option.setAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME, letter.getId());
+        option.addEventListener(
+          this.__EVENTS_MOUSEUP_NAME,
+          this.__answer.bind(this)
+        );
+
+        options.appendChild(option);
+      }
+
+      return options;
+    },
+
+    __generateInput: function() {
+      var groupSize = this.__currentGroup.size();
+      this.__view.options.innerHTML = '';
+
+      var options = document.createDocumentFragment();
+      var input = document.createElement('input');
+
+      input.setAttribute('type', 'text');
+      input.setAttribute('placeholder', 'Enter your answer here');
+
+      Utils.addClass(input, 'quiz__input');
+
+      return input;
     },
 
     __focusNextOption: function() {
@@ -152,69 +339,6 @@ var Quiz = (function() {
       this.__view.options.childNodes[this.__currentOptionElementIndex].focus();
     },
 
-    __initView: function() {
-      this.__view.container = document.getElementById(
-        this.__ELEMENT_QUIZ_CONTAINER
-      );
-
-      this.__view.sentence = document.getElementById(
-        this.__ELEMENT_SENTENCE_ID
-      );
-
-      this.__view.question = document.getElementById(
-        this.__ELEMENT_QUESTION_ID
-      );
-
-      this.__view.options = document.getElementById(this.__ELEMENT_OPTIONS_ID);
-
-      this.__view.message = document.getElementById(this.__ELEMENT_MESSAGE_ID);
-
-      setTimeout(
-        function() {
-          Utils.removeClass(this.__view.container, 'quiz__loading');
-        }.bind(this),
-        this.__ANIMATIONS_DELAY
-      );
-    },
-
-    __next: function() {
-      setTimeout(
-        function() {
-          this.__rollQuestion();
-          // Not implemented yet
-          // this.__rollMode();
-          this.__displayMessage();
-          this.__displaySentence();
-          this.__displayQuestion();
-          this.__displayOptions();
-          this.__focusOptionWithCurrentIndex();
-          this.__pronounceAnswer();
-        }.bind(this),
-        this.__ANIMATIONS_DELAY
-      );
-    },
-
-    __rollQuestion: function() {
-      this.__currentGroup = this.__currentDatabase.getGroup(
-        Utils.getRandomUpTo(this.__difficulty)
-      );
-
-      this.__currentQuestion = this.__currentGroup.getLetter(
-        Utils.getRandomUpTo(this.__currentGroup.size())
-      );
-    },
-
-    // Not implemented yet
-    // __rollMode: function () {
-    //   if (this.__currentQuestion.getScore() > this.__MIN_SCORE_TO_REMEMBER) {
-    //     var nextMode = Utils.getRandomUpTo(2);
-
-    //     if (nextMode !== this.__modePrev) {
-    //       this.__mode = nextMode;
-    //     }
-    //   }
-    // },
-
     __shuffleOptions: function(options) {
       var j, x, i;
 
@@ -226,14 +350,11 @@ var Quiz = (function() {
       }
     },
 
-    __chooseOption: function(e) {
-      var id = Number(
-        e.target.getAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME)
-      );
-
+    __answer: function(e) {
+      var correct = this.__answerIsCorrect(e.target);
       this.__currentOptionElement = e.target;
 
-      if (id === this.__currentQuestion.getId()) {
+      if (correct) {
         this.__currentQuestion.addScore();
         this.__increaseDifficultyIfNeeded();
         this.__showWhatAnswerIsCorrect();
@@ -259,10 +380,12 @@ var Quiz = (function() {
     },
 
     __showWhatAnswerIsCorrect: function() {
-      Utils.addClass(
-        this.__currentOptionElement,
-        this.__ELEMENT_OPTION_SUCCESS_CLASS
-      );
+      if (this.__currentMode !== 2) {
+        Utils.addClass(
+          this.__currentOptionElement,
+          this.__ELEMENT_OPTION_SUCCESS_CLASS
+        );
+      }
     },
 
     __showWhatAnswerIsWrong: function() {
@@ -290,85 +413,45 @@ var Quiz = (function() {
       );
     },
 
-    __displayQuestion: function() {
-      this.__view.question.innerHTML = this.__currentQuestion.getLetter();
-    },
-
-    __displayMessage: function() {
-      var message = this.__currentQuestion.getDescription();
-
-      if (this.__answerPossiblyRemembered()) {
-        if (this.mode === 1) {
-          message = 'Type your answer and press Enter';
-        } else {
-          message = 'Select one option';
-        }
+    __answerIsCorrect: function (el) {
+      switch (this.__currentMode) {
+        case 0:
+        case 1:
+          return this.__currentQuestion.getId() ===
+            Number(el.getAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME));
+          break;
+        case 2:
+          return this.__currentQuestion.getDescription().toLowerCase() ===
+            el.value.toLowerCase();
+        default:
+          // unknown mode;
+          break;
       }
 
-      this.__view.message.innerHTML = message;
+      return false;
     },
 
-    __displaySentence: function() {
-      this.__view.sentence.innerHTML =
-        this.__currentQuestion.getSentence() || '';
-    },
-
-    __displayInput: function() {
-      var groupSize = this.__currentGroup.size();
-      this.__view.options.innerHTML = '';
-
-      var options = document.createDocumentFragment();
-      var input = document.createElement('input');
-
-      input.setAttribute('type', 'text');
-      input.setAttribute('placeholder', 'Enter your answer here');
-
-      Utils.addClass(input, 'quiz__input');
-
-      this.__view.options.appendChild(input);
-    },
-
-    __displayOptions: function() {
-      var groupSize = this.__currentGroup.size();
-      this.__view.options.innerHTML = '';
-
-      var options = document.createDocumentFragment();
-      var letters = [];
-
-      for (var i = 0; i < groupSize; i++) {
-        letters.push(this.__currentGroup.getLetter(i));
-      }
-
-      this.__shuffleOptions(letters);
-
-      for (var i = 0; i < groupSize; i++) {
-        var option = document.createElement('a');
-        var letter = letters[i];
-
-        option.innerHTML = letter.getDescription();
-        option.classList = this.__ELEMENT_OPTION_CLASS;
-        option.href = '#';
-
-        option.setAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME, letter.getId());
-        option.addEventListener(
-          this.__EVENTS_MOUSEUP_NAME,
-          this.__chooseOption.bind(this)
-        );
-
-        options.appendChild(option);
-      }
-
-      this.__view.options.appendChild(options);
-    },
-
+    /**
+     * Ask AlphabetPronouncing to try to pronounce current letter
+     */
     __pronounceAnswer: function() {
       this.__currentDatabase.pronounceLetter(this.__currentQuestion);
     },
 
+    /**
+     * Check, if answer for current question is possibly remembered.
+     * Result based on comparing of letter score with __MIN_SCORE_TO_REMEMBER
+     * @returns { Boolean }
+     */
     __answerPossiblyRemembered: function() {
       return this.__currentQuestion.getScore() > this.__MIN_SCORE_TO_REMEMBER;
     },
 
+    /**
+     * Check, if passed value(s) is correct
+     * @private
+     * @param { Array } alphabets Arrays of alphabets data
+     */
     __verifyInputData: function(alphabets) {
       if (!Utils.isArray(alphabets) || !alphabets.length) {
         throw new TypeError('Alphabets must be an array and cant be empty');
