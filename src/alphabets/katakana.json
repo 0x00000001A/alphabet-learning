@@ -103,6 +103,82 @@
       { "letter": "プ", "description": "pu" },
       { "letter": "ぺ", "description": "pe" },
       { "letter": "ポ", "description": "po" }
+    ],
+    [
+      { "letter": "キャ", "description": "kya" },
+      { "letter": "キュ", "description": "kyu" },
+      { "letter": "キョ", "description": "kyo" }
+    ],
+    [
+      { "letter": "シャ", "description": "sha" },
+      { "letter": "シュ", "description": "shu" },
+      { "letter": "ショ", "description": "sho" }
+    ],
+    [
+      { "letter": "チャ", "description": "cha" },
+      { "letter": "チュ", "description": "chu" },
+      { "letter": "チョ", "description": "cho" }
+    ],
+    [
+      { "letter": "ニャ", "description": "nya" },
+      { "letter": "ニュ", "description": "nyu" },
+      { "letter": "ニョ", "description": "nyo" }
+    ],
+    [
+      { "letter": "ヒャ", "description": "hya" },
+      { "letter": "ヒュ", "description": "hyu" },
+      { "letter": "ヒョ", "description": "hyo" }
+    ],
+    [
+      { "letter": "ミャ", "description": "mya" },
+      { "letter": "ミュ", "description": "myu" },
+      { "letter": "ミョ", "description": "myo" }
+    ],
+    [
+      { "letter": "リャ", "description": "rya" },
+      { "letter": "リュ", "description": "ryu" },
+      { "letter": "リョ", "description": "ryo" }
+    ],
+    [
+      { "letter": "ギゃ", "description": "gya" },
+      { "letter": "ギュ", "description": "gyu" },
+      { "letter": "ギョ", "description": "gyo" }
+    ],
+    [
+      { "letter": "ジャ", "description": "zya", "transcription": "(d)ʑa" },
+      { "letter": "ジュ", "description": "zyu", "transcription": "(d)ʑɯ" },
+      { "letter": "ジョ", "description": "zyo", "transcription": "(d)ʑo" }
+    ],
+    [
+      { "letter": "ヂャ", "description": "d(z)ya", "transcription": "(d)ʑa" },
+      { "letter": "ヂュ", "description": "d(z)yu", "transcription": "(d)ʑɯ" },
+      { "letter": "ヂョ", "description": "d(z)yo", "transcription": "(d)ʑo" }
+    ],
+    [
+      { "letter": "ビャ", "description": "bya" },
+      { "letter": "ビュ", "description": "byu" },
+      { "letter": "ビョ", "description": "byo" }
+    ],
+    [
+      { "letter": "ピャ", "description": "pya" },
+      { "letter": "ピュ", "description": "pyu" },
+      { "letter": "ピョ", "description": "pyo" }
+    ],
+    [
+      {
+        "letter": "サヽキ",
+        "description": "Sasaki",
+        "sentence": "Katakana iteration mark, indicating that the previous katakana character should be repeated."
+      },
+      {
+        "letter": "サヾエ",
+        "description": "Sazae",
+        "sentence": "Katakana voiced iteration mark, indicating that the previous katakana character should be repeated with a voice mark applied"
+      }, {
+        "letter": "ー",
+        "description": "マー",
+        "sentence": "Long vowel mark - marks a long vowel in katakana and less commonly in hiragana (when placed after a syllable). This mark appears as a horizontal line in horizontal writing and as a vertical line in vertical writing."
+      }
     ]
   ]
 }

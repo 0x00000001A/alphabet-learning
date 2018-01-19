@@ -308,12 +308,21 @@ var Quiz = (function() {
       for (var i = 0; i < groupSize; i++) {
         var option = document.createElement('a');
         var letter = letters[i];
+        var html = '';
 
+        html += '<span class="quiz__option__text">';
         if (this.__currentMode === 0) {
-          option.innerHTML = letter.getDescription();
+          html += letter.getDescription();
+
+          if (letter.getTranscription().length) {
+            html += '<br/>[' + letter.getTranscription() + ']';
+          }
         } else {
-          option.innerHTML = letter.getLetter();
+          html += letter.getLetter();
         }
+        html += '</span>';
+
+        option.innerHTML = html;
 
         option.classList = this.__ELEMENT_OPTION_CLASS;
         option.href = '#';

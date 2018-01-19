@@ -27,7 +27,7 @@ var AlphabetLetter = (function() {
     this.__letter = data.letter;
     this.__sentence = data.sentence || '';
     this.__description = data.description;
-    this.__transcription = data.__transcription || '';
+    this.__transcription = data.transcription || '';
   }
 
   AlphabetLetter.prototype = {
@@ -89,6 +89,14 @@ var AlphabetLetter = (function() {
      */
     getDescription: function() {
       return this.__description;
+    },
+
+    /**
+     * Get transcription
+     * @returns { String } Transcription
+     */
+    getTranscription: function () {
+      return this.__transcription;
     },
 
     /**

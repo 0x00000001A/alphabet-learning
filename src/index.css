@@ -122,6 +122,12 @@ html {
   border-radius: 14px;
 }
 
+.quiz__option__text {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+
 .quiz__option:active,
 .quiz__option:hover,
 .quiz__option:focus {
