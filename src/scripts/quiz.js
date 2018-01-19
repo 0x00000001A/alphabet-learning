@@ -375,22 +375,17 @@ var Quiz = (function() {
     },
 
     __focusOptionWithCurrentIndex: function() {
-      setTimeout(
-        function() {
-          var el = this.__view.options.childNodes[
-            this.__currentOptionElementIndex
-          ];
+      var el = this.__view.options.childNodes[
+        this.__currentOptionElementIndex
+      ];
 
-          if (!el) {
-            this.__currentOptionElementIndex = 0;
-          }
+      if (!el) {
+        this.__currentOptionElementIndex = 0;
+      }
 
-          this.__view.options.childNodes[
-            this.__currentOptionElementIndex
-          ].focus();
-        }.bind(this),
-        100
-      );
+      this.__view.options.childNodes[
+        this.__currentOptionElementIndex
+      ].focus();
     },
 
     __shuffleOptions: function(options) {
@@ -410,8 +405,8 @@ var Quiz = (function() {
       }
 
       var correct = this.__answerIsCorrect(e.target);
-
-      this.__currentOptionElement = e.target;
+      this.__currentOptionElement = e.target.tagName.toLowerCase() === 'span' ?
+        e.target.parentElement : e.target;
 
       if (correct) {
         this.__inputIsBlocked = true;
@@ -474,18 +469,20 @@ var Quiz = (function() {
     },
 
     __answerIsCorrect: function(el) {
+      var element = el.tagName.toLowerCase() === 'span' ? el.parentElement : el;
+
       switch (this.__currentMode) {
         case 0:
         case 1:
           return (
             this.__currentQuestion.getId() ===
-            Number(el.getAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME))
+            Number(element.getAttribute(this.__ELEMENT_OPTION_DATA_ID_NAME))
           );
           break;
         case 2:
           return (
             this.__currentQuestion.getDescription().toLowerCase() ===
-            el.value.toLowerCase()
+            element.value.toLowerCase()
           );
         default:
           // unknown mode;
