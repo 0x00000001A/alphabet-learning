@@ -1,1 +1,44 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Page Title</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;line-height:1}body,html{padding:0;margin:0;height:100%}html{background-image:url(8d6ceaccd96fdbf66624b3d3dbeabc1c.jpg);background-size:cover;background-repeat:no-repeat;background-position:center center}.hidden{visibility:hidden}.quiz{font-family:Arial;display:table;position:absolute;width:100%;height:100%;max-height:100%;background:rgba(54,50,55,.7);text-align:center;opacity:1;transition:opacity .25s ease-in-out}.quiz.quiz__loading{opacity:0}.credits,.quiz__message,.quiz__options,.quiz__question,.quiz__sentence{display:table-row}.credits__items,.quiz__message__text,.quiz__options__list,.quiz__question__text,.quiz__sentence__background{vertical-align:middle;display:table-cell}.quiz__progress{background:#598383;border-radius:0 2px 2px 0;opacity:.8;top:0;position:absolute;left:0;width:0%;height:4px}.quiz__message__text{height:20px;background:rgba(54,50,55,.5);color:#a9d6cb;font-size:12px;padding:12px}.quiz__question__text{color:#fff;opacity:.9;height:100%;font-size:84px;padding:16px}.quiz__question__text.quiz__question_shake{animation:shake .3s}.quiz__sentence__background{color:#7cb3ac;padding:0 12px 12px}.quiz__sentence__text{background:#363237;display:inline-block;max-width:600px;font-size:12px}.quiz__option{display:inline-block;background:#7cb3ac;margin:0 5px;cursor:pointer;transition:all .25s ease-in-out;text-decoration:none;color:#000;width:50px;height:50px;font-size:14px;line-height:50px;border-radius:14px}.quiz__option__text{display:inline-block;vertical-align:middle;line-height:normal}.quiz__option:active,.quiz__option:focus,.quiz__option:hover{background:#a9d6cb;border-radius:8px;outline:0}.quiz__option.quiz__option_wrong{border-radius:50px;background:#5d4141;cursor:default}.quiz__option.quiz__option_right{background:#41555d;border-radius:50px;cursor:default}.quiz__input{font-size:24px;padding:7px 3px;color:#a9d6cb;background:rgba(54,50,55,.5);border:1px solid transparent;border-bottom:2px solid #598383;text-align:center}.quiz__input:focus{outline:0;border:1px solid #598383;border-bottom:2px solid #598383}.quiz__input::placeholder{color:#598383;text-align:center}.credits__item{display:block;margin:5px}.credits__link{color:#41555d;text-decoration:none;font-size:10px}.credits__link:hover{color:#a9d6cb;background:#41555d}.love{color:#a9d6cb}@media screen and (min-height:370px){.quiz__message__text{font-size:14px;padding:14px}.quiz__question__text{font-size:124px;padding:14px}.quiz__sentence__background{padding:0 14px 14px}.quiz__sentence__text{font-size:14px}.quiz__option{width:50px;height:50px;font-size:16px;line-height:50px;border-radius:14px}.credits__item{margin:10px}.credits__link{font-size:10px}}@media screen and (min-height:520px){.quiz__option{width:80px;height:80px;line-height:80px}}@media screen and (min-height:640px){.quiz__message__text{font-size:24px;padding:24px}.quiz__question__text{font-size:148px;padding:24px}.quiz__sentence__background{padding:0 24px 24px}.quiz__sentence__text{font-size:16px}.quiz__option{width:100px;height:100px;font-size:18px;line-height:100px;border-radius:18px}.credits__item{margin:24px}.credits__link{font-size:14px}}@media screen and (min-height:768px){.quiz__question__text{font-size:248px}}@keyframes shake{0%{-webkit-transform:translate(0,0);-moz-transform:translate(0,0);-ms-transform:translate(0,0);-o-transform:translate(0,0);transform:translate(0,0)}25%{-webkit-transform:translate(-20px,0);-moz-transform:translate(-20px,0);-ms-transform:translate(-20px,0);-o-transform:translate(-20px,0);transform:translate(-20px,0)}50%{-webkit-transform:translate(10px,0);-moz-transform:translate(10px,0);-ms-transform:translate(10px,0);-o-transform:translate(10px,0);transform:translate(10px,0)}75%{-webkit-transform:translate(-20px,0);-moz-transform:translate(-20px,0);-ms-transform:translate(-20px,0);-o-transform:translate(-20px,0);transform:translate(-20px,0)}100%{-webkit-transform:translate(0,0);-moz-transform:translate(0,0);-ms-transform:translate(0,0);-o-transform:translate(0,0);transform:translate(0,0)}}</style></head><body><div class="quiz quiz__loading" id="quiz"><div class="quiz__message"><span class="quiz__message__text" id="quiz__message"></span></div><div class="quiz__progress" id="quiz__progress"></div><div class="quiz__question"><div class="quiz__question__text" id="quiz__question"></div></div><div class="quiz__sentence"><div class="quiz__sentence__background"><span class="quiz__sentence__text" id="quiz__sentence">Lorem lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. A asperiores voluptatem laboriosam tempore facilis incidunt eaque aliquam, sapiente labore possimus. Necessitatibus repellendus delectus voluptatem qui magnam quidem nemo dignissimos rem?</span></div></div><div class="quiz__options" id="quiz__options"><div class="quiz__options__list"></div></div><div class="credits"><div class="credits__items"><span class="credits__item"><a class="credits__link" href="">GitHub Repository </a></span><span class="credits__item"><span class="love">&#10084;</span> <a href="" class="credits__link">MIT License</a>, <a href="" class="credits__link">2018, Tobermory</a></span></div></div></div><script type="text/javascript" src="main.js"></script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="styles.css" rel="stylesheet"></head>
+<body>
+  <div class="quiz quiz__loading" id="quiz">
+    <div class="quiz__message">
+      <span class="quiz__message__text" id="quiz__message"></span>
+    </div>
+    <div class="quiz__progress" id="quiz__progress"></div>
+    <div class="quiz__question">
+      <div class="quiz__question__text" id="quiz__question"></div>
+    </div>
+    <div class="quiz__sentence">
+      <div class="quiz__sentence__background">
+        <span class="quiz__sentence__text" id="quiz__sentence">
+          Lorem lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. A asperiores voluptatem laboriosam tempore facilis incidunt eaque aliquam, sapiente labore possimus. Necessitatibus repellendus delectus voluptatem qui magnam quidem nemo dignissimos rem?
+        </span>
+      </div>
+    </div>
+    <div class="quiz__options" id="quiz__options">
+      <div class="quiz__options__list"></div>
+    </div>
+    <div class="credits">
+      <div class="credits__items">
+        <span class="credits__item">
+          <a class="credits__link" href="">
+            GitHub Repository
+          </a>
+        </span>
+        <span class="credits__item">
+          <span class="love">&#10084;</span>
+          <a href="" class="credits__link">MIT License</a>,
+          <a href="" class="credits__link">2018, Tobermory</a>
+        </span>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript" src="main.js"></script></body>
+</html>

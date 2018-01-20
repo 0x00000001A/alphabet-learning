@@ -245,7 +245,7 @@ var Quiz = (function() {
       // Get last X groups with lowest score
       var lowestScoreGroup;
       var groups = [];
-      var x = 4;
+      var x = 2;
 
       for (var i = 0; i < x; i++) {
         var groupWithLowestScore = this.__currentDatabase.shift();
