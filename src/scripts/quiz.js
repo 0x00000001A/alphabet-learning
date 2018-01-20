@@ -3,9 +3,8 @@ var Alphabet = require('./alphabet');
 var PriorityQueue = require('./priority-queue');
 
 // TODO List
+// @TODO: store pronouncation mp3 files somewhere and only if they are not exists - try to use api
 // @TODO: refactor required
-// @TODO: jsdoc
-// @TODO: divide description to latin and transcription
 // @TODO: add font param to alphabet for downloading language specified fonts
 // @TODO: add interface for alphabet selecton
 // @TODO: save progress somewhere and allow to reset this progress
