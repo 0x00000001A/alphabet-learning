@@ -665,9 +665,7 @@ var Quiz = (function() {
      * @private
      */
     __pronounceAnswer: function() {
-      // if (this.__currentMode !== 2) {
-      // this.__currentDatabase.pronounceLetter(this.__currentQuestion);
-      // }
+      this.__alphabet.pronounceLetter(this.__currentQuestion);
     },
 
     /**
