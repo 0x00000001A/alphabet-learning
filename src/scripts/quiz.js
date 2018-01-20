@@ -1,5 +1,6 @@
 var Utils = require('./utils');
 var Alphabet = require('./alphabet');
+var PriorityQueue = require('./priority-queue');
 
 // TODO List
 // @TODO: refactor required
@@ -42,15 +43,17 @@ var Quiz = (function() {
 
     this.__view = {};
     this.__modes = 2;
+    this.__alphabet = null;
     this.__alphabets = alphabets;
     this.__difficulty = 1;
+    this.__inputIsBlocked = false;
+
     this.__currentMode = 0;
-    this.__currentGroup = [];
+    this.__currentGroup = null;
     this.__currentQuestion = null;
     this.__currentDatabase = null;
     this.__currentOptionElement = null;
     this.__currentOptionElementIndex = -1;
-    this.__inputIsBlocked = false;
 
     this.__ANIMATIONS_DELAY = 400;
     this.__MIN_SCORE_TO_REMEMBER = 4;
@@ -90,6 +93,9 @@ var Quiz = (function() {
   Quiz.prototype = {
     constructor: Quiz,
 
+    /**
+     * Initiate quiz and take first question
+     */
     start: function() {
       this.__initQuestions();
       this.__initKeyboard();
@@ -97,10 +103,37 @@ var Quiz = (function() {
       this.__next();
     },
 
+    /**
+     * Init question list
+     * Creates new instance of alphabet and initiates current database
+     * @private
+     */
     __initQuestions: function() {
-      this.__currentDatabase = new Alphabet(this.__alphabets[0]);
+      this.__alphabet = new Alphabet(this.__alphabets[0]);
+      this.__currentDatabase = new PriorityQueue(this.__alphabet.size());
+      this.__currentDatabase.setComparator(function (groupA, groupB) {
+        var aScore = 0;
+        var bScore = 0;
+        var aSize = groupA.size();
+        var bSize = groupB.size();
+        var size = Math.min(aSize, bSize);
+
+        for (var i = 0; i < size; i++) {
+          aScore += groupA.getLetter(i).getScore();
+          bScore += groupB.getLetter(i).getScore();
+        }
+
+        return aScore < bScore;
+      });
+
+      this.__currentDatabase.push(this.__alphabet.getGroup(0));
     },
 
+    /**
+     * Initiates keyboard helpers, such as keyboard navigation and answering
+     * using keyboard
+     * @private
+     */
     __initKeyboard: function() {
       document.addEventListener(
         this.__EVENTS_KEYDOWN_NAME,
@@ -123,6 +156,10 @@ var Quiz = (function() {
       );
     },
 
+    /**
+     * Search for required elements and store them in quiz
+     * @private
+     */
     __initView: function() {
       this.__view.progress = document.getElementById(
         this.__ELEMENT_PROGRESS_ID
@@ -151,6 +188,10 @@ var Quiz = (function() {
       );
     },
 
+    /**
+     * Take next question
+     * @private
+     */
     __next: function() {
       setTimeout(
         function() {
@@ -173,30 +214,93 @@ var Quiz = (function() {
       );
     },
 
+    /**
+     * Changes current mode to random one
+     * If previous mode was `2`, then `0` will be used, or random mode otherwise
+     * @private
+     */
     __changeMode: function() {
       if (this.__currentQuestion && this.__answerPossiblyRemembered()) {
-        this.__currentMode = Utils.getRandomUpTo(this.__modes + 1);
+        if (this.__currentMode === 2) {
+          this.__currentMode = 0;
+        } else {
+          this.__currentMode = Utils.getRandomUpTo(this.__modes + 1);
+        }
       } else {
         this.__currentMode = 0;
       }
     },
 
+    /**
+     * Change current questions group
+     * Takes random one from two groups from database with lowest score
+     * and saves to `__currentGroup`
+     * @private
+     */
     __changeGroup: function() {
-      this.__currentGroup = this.__currentDatabase.getGroup(
-        Utils.getRandomUpTo(this.__difficulty)
-      );
+      // Save modifications for current group if exists
+      if (this.__currentGroup) {
+        this.__currentDatabase.push(this.__currentGroup);
+      }
+
+      // Get last X groups with lowest score
+      var lowestScoreGroup;
+      var groups = [];
+      var x = 4;
+
+      for (var i = 0; i < x; i++) {
+        var groupWithLowestScore = this.__currentDatabase.shift();
+
+        if (groupWithLowestScore) {
+          groups.push(groupWithLowestScore);
+        }
+
+        if (!lowestScoreGroup) {
+          lowestScoreGroup = groupWithLowestScore;
+        }
+      }
+
+      // Shuffle groups array and use first one group from result as a
+      // current group
+      Utils.shuffleArray(groups);
+      this.__currentGroup = groups.shift();
+
+      // Put back in queue remaining groups
+      var restGroupsSize = groups.length;
+
+      for (var i = 0; i < restGroupsSize; i++) {
+        this.__currentDatabase.push(groups[i]);
+      }
+
+      // We would to increase difficulty if group with lowest score have
+      // score `>= __MIN_SCORE_TO_REMEMBER`
+      this.__increaseDifficultyIfNeeded(lowestScoreGroup);
     },
 
+    /**
+     * Change current question
+     * Takes one random letter from `__currentGroup` and saves to
+     * `__currentQuestion`
+     * @private
+     */
     __changeQuestion: function() {
       this.__currentQuestion = this.__currentGroup.getLetter(
         Utils.getRandomUpTo(this.__currentGroup.size())
       );
     },
 
+    /**
+     * Update progress bar
+     * @private
+     */
     __displayProgress: function() {
       this.__view.progress.style.width = this.__getProgress() + '%';
     },
 
+    /**
+     * Show message (instruction or letter, depends on score)
+     * @private
+     */
     __displayMessage: function() {
       var message;
 
@@ -226,6 +330,10 @@ var Quiz = (function() {
       this.__view.message.innerHTML = message;
     },
 
+    /**
+     * Show question (letter or description, depends on score)
+     * @private
+     */
     __displayQuestion: function() {
       var question;
 
@@ -244,11 +352,18 @@ var Quiz = (function() {
       this.__view.question.innerHTML = question;
     },
 
+    /**
+     * Display question sentence
+     * @private
+     */
     __displaySentence: function() {
-      this.__view.sentence.innerHTML =
-        this.__currentQuestion.getSentence();
+      this.__view.sentence.innerHTML = this.__currentQuestion.getSentence();
     },
 
+    /**
+     * Display options - input or options, depends on current mode
+     * @private
+     */
     __displayOptions: function() {
       var options;
 
@@ -269,7 +384,15 @@ var Quiz = (function() {
       this.__view.options.appendChild(options);
     },
 
+    /**
+     * Returns percent value of learning progress
+     * It takes each letter in each group and compares with
+     * `__MIN_SCORE_TO_REMEMBER`
+     * @private
+     * @returns { Number }
+     */
     __getProgress: function() {
+      return 0;
       var total = 0;
       var progress = 0;
       var databaseSize = this.__currentDatabase.size();
@@ -292,6 +415,11 @@ var Quiz = (function() {
       return progress / total * 100;
     },
 
+    /**
+     * Build a HTML elements what would be used as answer options
+     * @private
+     * @returns { HTMLElement } Container with options inside
+     */
     __generateOptions: function() {
       var groupSize = this.__currentGroup.size();
       this.__view.options.innerHTML = '';
@@ -303,7 +431,7 @@ var Quiz = (function() {
         letters.push(this.__currentGroup.getLetter(i));
       }
 
-      this.__shuffleOptions(letters);
+      Utils.shuffleArray(letters);
 
       for (var i = 0; i < groupSize; i++) {
         var option = document.createElement('a');
@@ -339,6 +467,12 @@ var Quiz = (function() {
       return options;
     },
 
+    /**
+     * Build a HTML input what would be used as answer option
+     * User have to type answer there
+     * @private
+     * @returns { HTMLElement } Container with input inside
+     */
     __generateInput: function() {
       var groupSize = this.__currentGroup.size();
       this.__view.options.innerHTML = '';
@@ -354,6 +488,10 @@ var Quiz = (function() {
       return input;
     },
 
+    /**
+     * Asks element with `__currentOptionElementIndex + 1` to take the focus
+     * @private
+     */
     __focusNextOption: function() {
       if (this.__currentOptionElementIndex < this.__currentGroup.size() - 1) {
         this.__currentOptionElementIndex++;
@@ -364,6 +502,10 @@ var Quiz = (function() {
       this.__focusOptionWithCurrentIndex();
     },
 
+    /**
+     * Asks element with `__currentOptionElementIndex - 1` to take the focus
+     * @private
+     */
     __focusPreviousOption: function() {
       if (this.__currentOptionElementIndex > 0) {
         this.__currentOptionElementIndex--;
@@ -374,44 +516,43 @@ var Quiz = (function() {
       this.__focusOptionWithCurrentIndex();
     },
 
+    /**
+     * Asks element with `__currentOptionElementIndex` to take the focus
+     * @private
+     */
     __focusOptionWithCurrentIndex: function() {
-      var el = this.__view.options.childNodes[
-        this.__currentOptionElementIndex
-      ];
+      var el = this.__view.options.childNodes[this.__currentOptionElementIndex];
 
       if (!el) {
         this.__currentOptionElementIndex = 0;
       }
 
-      this.__view.options.childNodes[
-        this.__currentOptionElementIndex
-      ].focus();
+      this.__view.options.childNodes[this.__currentOptionElementIndex].focus();
     },
 
-    __shuffleOptions: function(options) {
-      var j, x, i;
-
-      for (i = options.length - 1; i > 0; i--) {
-        j = Utils.getRandomUpTo(i + 1);
-        x = options[i];
-        options[i] = options[j];
-        options[j] = x;
-      }
-    },
-
+    /**
+     * Make an answer
+     * If answer is correct, next question will be shown
+     * @private
+     * @param { HTMLElement } e Element what contains an answer
+     */
     __answer: function(e) {
+      // Prevent multiple clicks
       if (this.__inputIsBlocked) {
         return;
       }
 
+      // Check, if `e.target` is correct
       var correct = this.__answerIsCorrect(e.target);
-      this.__currentOptionElement = e.target.tagName.toLowerCase() === 'span' ?
-        e.target.parentElement : e.target;
+      this.__currentOptionElement =
+        e.target.tagName.toLowerCase() === 'span'
+          ? e.target.parentElement
+          : e.target;
 
+      // Check, is answer is correct
       if (correct) {
         this.__inputIsBlocked = true;
         this.__currentQuestion.addScore();
-        this.__increaseDifficultyIfNeeded();
         this.__showWhatAnswerIsCorrect();
         this.__next();
       } else {
@@ -421,19 +562,34 @@ var Quiz = (function() {
       }
     },
 
-    __increaseDifficultyIfNeeded: function() {
-      var group = this.__currentDatabase.getGroup(this.__difficulty - 1);
-      var groupSize = group.size();
+    /**
+     * If score of group with lowest score is high enough (depends on
+     * `__MIN_SCORE_TO_REMEMBER` value), next group will be added to the
+     * `__currentDatabase`
+     * @private
+     * @param { AlphabetLetterGroup } groupWithLowestScore Letter group
+     */
+    __increaseDifficultyIfNeeded: function(groupWithLowestScore) {
+      var groupSize = groupWithLowestScore.size();
 
       for (var i = 0; i < groupSize; i++) {
-        if (group.getLetter(i).getScore() < this.__MIN_SCORE_TO_REMEMBER) {
+        if (
+          groupWithLowestScore.getLetter(i).getScore() <
+          this.__MIN_SCORE_TO_REMEMBER
+        ) {
           return;
         }
       }
 
-      this.__difficulty++;
+      this.__currentDatabase.push(
+        this.__alphabet.getGroup(this.__currentDatabase.size())
+      );
     },
 
+    /**
+     * Animate elements according to incorrect answer
+     * @private
+     */
     __showWhatAnswerIsCorrect: function() {
       if (this.__currentMode !== 2) {
         Utils.addClass(
@@ -443,6 +599,10 @@ var Quiz = (function() {
       }
     },
 
+    /**
+     * Animate elements according to incorrect answer
+     * @private
+     */
     __showWhatAnswerIsWrong: function() {
       Utils.addClass(
         this.__currentOptionElement,
@@ -468,6 +628,14 @@ var Quiz = (function() {
       );
     },
 
+    /**
+     * Check, if answer is correct
+     * Actually, take an element as an argument and checks his content or
+     * attributes
+     * @private
+     * @param { HTMLElement } el HTML Element with answer
+     * @returns { Boolean }
+     */
     __answerIsCorrect: function(el) {
       var element = el.tagName.toLowerCase() === 'span' ? el.parentElement : el;
 
@@ -494,16 +662,18 @@ var Quiz = (function() {
 
     /**
      * Ask AlphabetPronouncing to try to pronounce current letter
+     * @private
      */
     __pronounceAnswer: function() {
-      if (this.__currentMode !== 2) {
-        this.__currentDatabase.pronounceLetter(this.__currentQuestion);
-      }
+      // if (this.__currentMode !== 2) {
+      // this.__currentDatabase.pronounceLetter(this.__currentQuestion);
+      // }
     },
 
     /**
      * Check, if answer for current question is possibly remembered.
      * Result based on comparing of letter score with __MIN_SCORE_TO_REMEMBER
+     * @private
      * @returns { Boolean }
      */
     __answerPossiblyRemembered: function() {

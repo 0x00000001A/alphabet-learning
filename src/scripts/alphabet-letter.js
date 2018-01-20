@@ -95,7 +95,7 @@ var AlphabetLetter = (function() {
      * Get transcription
      * @returns { String } Transcription
      */
-    getTranscription: function () {
+    getTranscription: function() {
       return this.__transcription;
     },
 
