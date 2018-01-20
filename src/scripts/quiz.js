@@ -110,7 +110,7 @@ var Quiz = (function() {
     __initQuestions: function() {
       this.__alphabet = new Alphabet(this.__alphabets[0]);
       this.__currentDatabase = new PriorityQueue(this.__alphabet.size());
-      this.__currentDatabase.setComparator(function (groupA, groupB) {
+      this.__currentDatabase.setComparator(function(groupA, groupB) {
         var aScore = 0;
         var bScore = 0;
         var aSize = groupA.size();
@@ -553,11 +553,12 @@ var Quiz = (function() {
         this.__inputIsBlocked = true;
         this.__currentQuestion.addScore();
         this.__showWhatAnswerIsCorrect();
+        this.__pronounceAnswer(true);
         this.__next();
       } else {
         this.__currentQuestion.reduceScore();
         this.__showWhatAnswerIsWrong();
-        this.__pronounceAnswer();
+        this.__pronounceAnswer(true);
       }
     },
 
@@ -663,8 +664,13 @@ var Quiz = (function() {
      * Ask AlphabetPronouncing to try to pronounce current letter
      * @private
      */
-    __pronounceAnswer: function() {
-      this.__alphabet.pronounceLetter(this.__currentQuestion);
+    __pronounceAnswer: function(doNotLookAtScore) {
+      if (
+        doNotLookAtScore ||
+        this.__currentQuestion.getScore() <= this.__MIN_SCORE_TO_REMEMBER
+      ) {
+        this.__alphabet.pronounceLetter(this.__currentQuestion);
+      }
     },
 
     /**
