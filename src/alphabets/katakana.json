@@ -1,7 +1,7 @@
 {
   "name": "Japan",
   "code": "ja",
-  "api": "https://translate.google.ru/translate_tts?ie=UTF-8&q=%s&tl=%l&total=1&idx=0&textlen=1&client=tw-ob",
+  "api": "https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%l&total=1&idx=0&textlen=1&tk=446810.48174&client=tw-ob&prev=input",
   "groups": [
     [
       { "letter": "ア", "description": "a" },
