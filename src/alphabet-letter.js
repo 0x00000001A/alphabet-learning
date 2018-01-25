@@ -23,6 +23,7 @@ var AlphabetLetter = (function() {
   function AlphabetLetter(id: number, data: ObjectAlphabetLetter) {
     this._id = id;
     this._score = 0;
+    this._origin = data;
     this._letter = data.letter;
     this._sentence = data.sentence || '';
     this._description = data.description;
@@ -96,6 +97,10 @@ var AlphabetLetter = (function() {
      */
     getTranscription: function(): string {
       return this._transcription;
+    },
+
+    toObject: function(): ObjectAlphabetLetter {
+      return this._origin;
     }
   };
 

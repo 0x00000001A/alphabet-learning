@@ -10,30 +10,10 @@ var Quiz = (function() {
   /**
    * Main alphabet library class (Quiz)
    * Provides functionality for alphabet learning
-   * Requires correct alpabets list to be passed in
-   *
-   * @example
-   * ```js
-   * new Quiz([{
-   *  name: "Japan",
-   *  code: "ja",
-   *  groups: [
-   *    [
-   *      { letter: "x", description: "descx" }
-   *    ],
-   *    [
-   *      { letter: "y", description: "descy", sentence: "tip" },
-   *      { letter: "z", description: "descz" }
-   *    ]
-   *  ]
-   * }])
-   * ```
-   * @param { Array<ObjectAlphabet> } alphabets Array of alphabets will be used in Quiz
    */
-  function Quiz(alphabets: Array<ObjectAlphabet>) {
+  function Quiz() {
     this._modes = 2;
     this._alphabet = null;
-    this._alphabets = alphabets;
 
     this._currentMode = 0;
     this._currentGroup = null;
@@ -49,21 +29,58 @@ var Quiz = (function() {
 
     /**
      * Initiate quiz and take first question
+     * Requires correct alpabets list to be passed in
+     * @example
+     * ```js
+     * new Quiz([{
+     *  name: "Japan",
+     *  code: "ja",
+     *  groups: [
+     *    [
+     *      { letter: "x", description: "descx" }
+     *    ],
+     *    [
+     *      { letter: "y", description: "descy", sentence: "tip" },
+     *      { letter: "z", description: "descz" }
+     *    ]
+     *  ]
+     * }])
+     * ```
+     * @param { ObjectAlphabet } alpabet
      */
-    start: function() {
-      this._initQuestions();
+    start: function(alphabet: ObjectAlphabet) {
+      this._initQuestions(alphabet);
       this.next();
     },
 
     /**
      * Take next question
      */
-    next: function() {
-      this._inputIsBlocked = false;
+    next: function(answerText: string) {
+      if (this._currentQuestion) {
+        if (this.isCorrect(answerText)) {
+          this._currentQuestion.addScore();
+        } else {
+          this._currentQuestion.reduceScore();
+        }
+      }
 
       this._changeGroup();
       this._changeQuestion();
       this._changeMode();
+    },
+
+    /**
+     * Check, if answer is correct
+     * @param { string } answerText
+     * @returns { boolean }
+     */
+    isCorrect: function (answerText: string): boolean {
+      var letter = this._currentQuestion.getLetter().toLowerCase();
+      var description = this._currentQuestion.getDescription().toLowerCase();
+      var answer = answerText.toLowerCase();
+
+      return letter === answer || description === answer;
     },
 
     /**
@@ -195,16 +212,19 @@ var Quiz = (function() {
         }
       }
 
-      return progress / total * 100;
+      var percentage = progress / total * 100;
+
+      return isNaN(percentage) ? 0 : percentage;
     },
 
     /**
      * Init question list
      * Creates new instance of alphabet and initiates current database
+     * @param { ObjectAlphabet } alpabet
      * @private
      */
-    _initQuestions: function() {
-      this._alphabet = new Alphabet(this._alphabets[0]);
+    _initQuestions: function(alpabet: ObjectAlphabet) {
+      this._alphabet = new Alphabet(alpabet);
       this._currentDatabase = new PriorityQueue(this._alphabet.size());
       this._currentDatabase.setComparator(function(
         groupA: AlphabetLetterGroup,

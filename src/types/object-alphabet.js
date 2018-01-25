@@ -1,3 +1,4 @@
+/* @flow */
 var ObjectAlphabetLetter = require('./object-alphabet-letter');
 
 type ObjectAlphabet = {

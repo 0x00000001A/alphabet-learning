@@ -12,10 +12,6 @@ var Utils = (function() {
    * @returns { number }
    */
   Utils.getRandomUpTo = function(value: number): number {
-    if (!this.isNumber(value)) {
-      throw new Error('Value should be a number');
-    }
-
     return Math.floor(Math.random() * value);
   };
 
