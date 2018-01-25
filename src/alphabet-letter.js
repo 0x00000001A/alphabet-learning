@@ -1,5 +1,5 @@
 /* @flow */
-var ObjectAlphabetLetter = require('./types/object-alphabet-letter');
+import type { ObjectAlphabetLetter } from './types/object-alphabet-letter';
 
 var AlphabetLetter = (function() {
   /**
@@ -99,6 +99,10 @@ var AlphabetLetter = (function() {
       return this._transcription;
     },
 
+    /**
+     * Get object representation of letter
+     * @returns { ObjectAlphabetLetter }
+     */
     toObject: function(): ObjectAlphabetLetter {
       return this._origin;
     }

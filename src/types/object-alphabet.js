@@ -1,11 +1,9 @@
 /* @flow */
-var ObjectAlphabetLetter = require('./object-alphabet-letter');
+import type { ObjectAlphabetLetter } from './object-alphabet-letter.js';
 
-type ObjectAlphabet = {
+export type ObjectAlphabet = {
   name: string,
   code: string,
   api: string,
   groups: Array<ObjectAlphabetLetter>
 };
-
-module.exports = ObjectAlphabet;

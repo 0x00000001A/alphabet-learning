@@ -1,8 +1,6 @@
 /* @flow */
-type ObjectAlphabetLetter = {
+export type ObjectAlphabetLetter = {
   letter: string,
   description: string,
-  sentence?: string
+  sentence: string
 };
-
-module.exports = ObjectAlphabetLetter;

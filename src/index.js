@@ -1,5 +1,6 @@
 /* @flow */
-var ObjectAlphabet = require('./types/object-alphabet');
+import type { ObjectAlphabet } from './types/object-alphabet';
+import type { ObjectAlphabetLetter } from './types/object-alphabet-letter';
 
 var Utils = require('./utils');
 var Alphabet = require('./alphabet');
@@ -12,6 +13,12 @@ var Quiz = (function() {
    * Provides functionality for alphabet learning
    */
   function Quiz() {
+    /**
+     * @var { number } _modes
+     * 0 - Letter as question and descriptions as options
+     * 1 - Description as question and letters as options
+     * 2 - Letter as question and no options (free-type answer)
+     */
     this._modes = 2;
     this._alphabet = null;
 
@@ -75,7 +82,7 @@ var Quiz = (function() {
      * @param { string } answerText
      * @returns { boolean }
      */
-    isCorrect: function (answerText: string): boolean {
+    isCorrect: function(answerText: string): boolean {
       var letter = this._currentQuestion.getLetter().toLowerCase();
       var description = this._currentQuestion.getDescription().toLowerCase();
       var answer = answerText.toLowerCase();
@@ -102,7 +109,8 @@ var Quiz = (function() {
     getOptions: function(): Array<{ text: string, additional?: string }> {
       var options = [];
 
-      if (this._currentMode === 0 || this._currentMode === 2) {
+      // If current mode is 'letter-and-options' or 'description-and-options'
+      if (this._currentMode === 0 || this._currentMode === 1) {
         var groupSize = this._currentGroup.size();
 
         for (var i = 0; i < groupSize; i++) {
@@ -143,11 +151,11 @@ var Quiz = (function() {
         }
       } else {
         switch (this._currentMode) {
-          case 0:
-          case 1:
+          case 0: // Letter as question with options
+          case 1: // Description as question with options
             message = 'Select one option';
             break;
-          case 2:
+          case 2: // Letter as question with free-type answer
             message = 'Type your answer and press Enter';
             break;
           default:
@@ -170,16 +178,19 @@ var Quiz = (function() {
      * Get question
      * @returns { string } Question text
      */
-    getQuestion: function(): string {
-      var question = '';
+    getQuestion: function(): { text: string, original: ObjectAlphabetLetter } {
+      var question = {
+        text: '',
+        original: this._currentQuestion.toObject()
+      };
 
       switch (this._currentMode) {
-        case 0:
-        case 2:
-          question = this._currentQuestion.getLetter();
+        case 0: // Letter with options
+        case 2: // Letter and free-type answer
+          question.text = this._currentQuestion.getLetter();
           break;
-        case 1:
-          question = this._currentQuestion.getDescription();
+        case 1: // Description with options
+          question.text = this._currentQuestion.getDescription();
           break;
         default:
         // unknown mode;
@@ -198,7 +209,7 @@ var Quiz = (function() {
       var databaseSize = this._currentDatabase.size();
 
       for (var id = 0; id < databaseSize; id++) {
-        var group = this._currentDatabase.getGroup(id);
+        var group = this._alphabet.getGroup(id);
         var groupSize = group.size();
 
         for (var ig = 0; ig < groupSize; ig++) {
@@ -215,6 +226,17 @@ var Quiz = (function() {
       var percentage = progress / total * 100;
 
       return isNaN(percentage) ? 0 : percentage;
+    },
+
+    /**
+     * How many times user have to give a right answer before new
+     * letters will be added to quiz
+     * @param { number } val
+     */
+    setMinScoreToRememember: function(val: number) {
+      if (val > 0) {
+        this._MIN_SCORE_TO_REMEMBER = val;
+      }
     },
 
     /**

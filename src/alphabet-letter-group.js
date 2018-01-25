@@ -1,5 +1,6 @@
 /* @flow */
-var ObjectAlphabetLetter = require('./types/object-alphabet-letter');
+import type { ObjectAlphabetLetter } from './types/object-alphabet-letter';
+
 var AlphabetLetter = require('./alphabet-letter');
 
 var AlphabetLetterGroup = (function() {
