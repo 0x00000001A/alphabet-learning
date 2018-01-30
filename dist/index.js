@@ -271,7 +271,6 @@ var Alphabet = (function() {
    * ```js
    * {
    *   name: "Japan",
-   *   code: "ja",
    *   groups: [
    *     [{
    *       letter: 'す',
@@ -290,7 +289,6 @@ var Alphabet = (function() {
     this._groups = [];
     this._groupsCount = 0;
     this._languageName = '';
-    this._languageCode = '';
 
     this._initGroups(alphabet.groups);
   }
@@ -328,7 +326,6 @@ var Alphabet = (function() {
 
       return {
         name: this._languageName,
-        code: this._languageCode,
         groups: groups
       };
     },
@@ -570,7 +567,6 @@ var Quiz = (function() {
      * ```js
      * new Quiz([{
      *  name: "Japan",
-     *  code: "ja",
      *  groups: [
      *    [
      *      { letter: "x", description: "descx" }

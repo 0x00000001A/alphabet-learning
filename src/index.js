@@ -49,7 +49,7 @@ var Quiz = (function() {
 
     useSnapshot: function(snapshot) {
       // It adds group with id = 0 initially
-      this._initQuestions(snapshot.alphabet)
+      this._initQuestions(snapshot.alphabet);
 
       // But we have to add remaining groups manually
       for (var i = 1; i < snapshot.database; i++) {
