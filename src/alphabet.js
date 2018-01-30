@@ -15,7 +15,6 @@ var Alphabet = (function() {
    * ```js
    * {
    *   name: "Japan",
-   *   code: "ja",
    *   groups: [
    *     [{
    *       letter: 'す',
@@ -34,7 +33,6 @@ var Alphabet = (function() {
     this._groups = [];
     this._groupsCount = 0;
     this._languageName = '';
-    this._languageCode = '';
 
     this._initGroups(alphabet.groups);
   }
@@ -57,6 +55,23 @@ var Alphabet = (function() {
      */
     getGroup: function(groupId: number): AlphabetLetterGroup | void {
       return this._groups[groupId];
+    },
+
+    /**
+     * Get object representation of alphabet
+     * @returns { ObjectAlphabet }
+     */
+    toObject: function(): ObjectAlphabet {
+      var groups: Array<Array<ObjectAlphabetLetter>> = [];
+
+      for (let i: number = 0; i < this.size(); i++) {
+        groups.push(this.getGroup(i).toArray());
+      }
+
+      return {
+        name: this._languageName,
+        groups: groups
+      };
     },
 
     /**

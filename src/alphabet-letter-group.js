@@ -59,6 +59,20 @@ var AlphabetLetterGroup = (function() {
     },
 
     /**
+     * Get as array of letter objects
+     * @returns { Array<AlphabetLetterGroup> }
+     */
+    toArray: function(): Array<ObjectAlphabetLetter> {
+      var result: Array<ObjectAlphabetLetter> = [];
+
+      for (let i: number = 0; i < this.size(); i++) {
+        result.push(this.getLetter(i).toObject());
+      }
+
+      return result;
+    },
+
+    /**
      * Creates instance of AlphabetLetter with passed in data
      * @private
      * @param { number } id ID for letter. Will be passed to AlphabetLetter
