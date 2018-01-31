@@ -104,7 +104,10 @@ var AlphabetLetter = (function() {
      * @returns { ObjectAlphabetLetter }
      */
     toObject: function(): ObjectAlphabetLetter {
-      return this._origin;
+      return Object.assign(this._origin, {
+        id: this._id,
+        score: this._score
+      });
     }
   };
 
