@@ -22,7 +22,7 @@ var AlphabetLetter = (function() {
    */
   function AlphabetLetter(id: number, data: ObjectAlphabetLetter) {
     this._id = id;
-    this._score = 0;
+    this._score = data.score || 0;
     this._origin = data;
     this._letter = data.letter;
     this._sentence = data.sentence || '';
@@ -104,10 +104,12 @@ var AlphabetLetter = (function() {
      * @returns { ObjectAlphabetLetter }
      */
     toObject: function(): ObjectAlphabetLetter {
-      return Object.assign(this._origin, {
-        id: this._id,
+      return {
+        letter: this._letter,
+        description: this._description,
+        sentence: this._sentence,
         score: this._score
-      });
+      };
     }
   };
 

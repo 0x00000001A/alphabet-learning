@@ -61,7 +61,7 @@ var AlphabetLetter = (function() {
    */
   function AlphabetLetter(id, data) {
     this._id = id;
-    this._score = 0;
+    this._score = data.score || 0;
     this._origin = data;
     this._letter = data.letter;
     this._sentence = data.sentence || '';
@@ -143,10 +143,12 @@ var AlphabetLetter = (function() {
      * @returns { ObjectAlphabetLetter }
      */
     toObject: function() {
-      return Object.assign(this._origin, {
-        id: this._id,
+      return {
+        letter: this._letter,
+        description: this._description,
+        sentence: this._sentence,
         score: this._score
-      });
+      }
     }
   };
 
@@ -534,35 +536,6 @@ var Quiz = (function() {
   Quiz.prototype = {
     constructor: Quiz,
 
-    getSnapshot: function() {
-      // return all of the quiz information including alphabet
-      return {
-        mode: this._currentMode,
-        group: this._currentGroup.getId(),
-        alphabet: this._alphabet.toObject(),
-        question: this._currentQuestion.getId(),
-        database: this._currentDatabase.size(),
-        minScoreToRemember: this._MIN_SCORE_TO_REMEMBER,
-        minScoreToAcceptProgress: this._MIN_SCORE_TO_ACCEPT_PROGRESS
-      };
-    },
-
-    useSnapshot: function(snapshot) {
-      // It adds group with id = 0 initially
-      this._initQuestions(snapshot.alphabet);
-
-      // But we have to add remaining groups manually
-      for (var i = 1; i < snapshot.database; i++) {
-        this._currentDatabase.push(this._alphabet.getGroup(i));
-      }
-
-      this._currentMode = snapshot.mode;
-      this._currentGroup = this._alphabet.getGroup(snapshot.group);
-      this._currentQuestion = this._currentGroup.getLetter(snapshot.question);
-      this._MIN_SCORE_TO_REMEMBER = snapshot.minScoreToRemember;
-      this._MIN_SCORE_TO_ACCEPT_PROGRESS = snapshot.minScoreToAcceptProgress;
-    },
-
     /**
      * Initiate quiz and take first question
      * Requires correct alpabets list to be passed in
@@ -709,7 +682,8 @@ var Quiz = (function() {
     getQuestion: function() {
       var question = {
         text: '',
-        original: this._currentQuestion.toObject()
+        original: this._currentQuestion.toObject(),
+        remembered: this._answerPossiblyRemembered()
       };
 
       switch (this._currentMode) {
@@ -765,6 +739,45 @@ var Quiz = (function() {
       if (val > 0) {
         this._MIN_SCORE_TO_REMEMBER = val;
       }
+    },
+
+    /**
+     * Get current quiz snapshot.
+     * Userful for saving the progress
+     * @returns { * } Snapshot data
+     */
+    getSnapshot: function() {
+      // return all of the quiz information including alphabet
+      return {
+        mode: this._currentMode,
+        group: this._currentGroup.getId(),
+        alphabet: this._alphabet.toObject(),
+        question: this._currentQuestion.getId(),
+        database: this._currentDatabase.size(),
+        minScoreToRemember: this._MIN_SCORE_TO_REMEMBER,
+        minScoreToAcceptProgress: this._MIN_SCORE_TO_ACCEPT_PROGRESS
+      };
+    },
+
+    /**
+     * Load quiz state saved using `getSnapshot` method
+     * Restores progress, last question, score, etc
+     * @param { * } snapshot Snapshot data
+     */
+    useSnapshot: function(snapshot) {
+      // It adds group with id = 0 initially
+      this._initQuestions(snapshot.alphabet);
+
+      // But we have to add remaining groups manually
+      for (var i = 1; i < snapshot.database; i++) {
+        this._currentDatabase.push(this._alphabet.getGroup(i));
+      }
+
+      this._currentMode = snapshot.mode;
+      this._currentGroup = this._alphabet.getGroup(snapshot.group);
+      this._currentQuestion = this._currentGroup.getLetter(snapshot.question);
+      this._MIN_SCORE_TO_REMEMBER = snapshot.minScoreToRemember;
+      this._MIN_SCORE_TO_ACCEPT_PROGRESS = snapshot.minScoreToAcceptProgress;
     },
 
     /**
